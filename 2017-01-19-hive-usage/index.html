@@ -1,0 +1,863 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hive," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="1. 增删改查1.1. 增
+创建数据库
+1create database yjr;
+
+创建表
+create table if not exists table_test(
+    user_id string comment &amp;apos;用户标记&amp;apos;
+)PARTITIONED BY (log_date string)
+ROW FORMAT DELIMITED FIELDS TERMINAT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hive SQL">
+<meta property="og:url" content="yejinru.github.io/2017-01-19-hive-usage/index.html">
+<meta property="og:site_name" content="yejinru">
+<meta property="og:description" content="1. 增删改查1.1. 增
+创建数据库
+1create database yjr;
+
+创建表
+create table if not exists table_test(
+    user_id string comment &amp;apos;用户标记&amp;apos;
+)PARTITIONED BY (log_date string)
+ROW FORMAT DELIMITED FIELDS TERMINAT">
+<meta property="og:updated_time" content="2017-02-04T13:44:14.200Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hive SQL">
+<meta name="twitter:description" content="1. 增删改查1.1. 增
+创建数据库
+1create database yjr;
+
+创建表
+create table if not exists table_test(
+    user_id string comment &amp;apos;用户标记&amp;apos;
+)PARTITIONED BY (log_date string)
+ROW FORMAT DELIMITED FIELDS TERMINAT">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="yejinru.github.io/2017-01-19-hive-usage/"/>
+
+
+
+
+
+  <title> Hive SQL | yejinru </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">yejinru</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="yejinru.github.io/2017-01-19-hive-usage/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="yejinru">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="yejinru">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="yejinru" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Hive SQL
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-19T12:00:00+08:00">
+                2017-01-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-增删改查"><a href="#1-增删改查" class="headerlink" title="1. 增删改查"></a>1. 增删改查</h1><h2 id="1-1-增"><a href="#1-1-增" class="headerlink" title="1.1. 增"></a>1.1. 增</h2><ol>
+<li><p>创建数据库</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">create database yjr;</div></pre></td></tr></table></figure>
+</code></pre></li>
+<li><p>创建表</p>
+<pre><code>create table if not exists table_test(
+    user_id string comment &apos;用户标记&apos;
+)PARTITIONED BY (log_date string)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY &apos;\t&apos;
+LOCATION  &apos;/user/yjr/table_test&apos;;
+</code></pre></li>
+<li><p>创建外部表：使用外部表可以避免删除表、分区时，删除HDFS原数据</p>
+<pre><code>create external table if not exists table_test(
+    user_id string comment &apos;用户标记&apos;
+)PARTITIONED BY (log_date string)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY &apos;\t&apos;
+LOCATION  &apos;/user/yjr/table_test&apos;;
+</code></pre></li>
+<li><p>增加列</p>
+</li>
+</ol>
+<h2 id="1-2-删"><a href="#1-2-删" class="headerlink" title="1.2. 删"></a>1.2. 删</h2><ol>
+<li><p>删除数据库</p>
+<pre><code>drop database yjr;
+</code></pre></li>
+<li><p>删除表</p>
+<pre><code>drop table table_test;
+</code></pre></li>
+<li><p>删除分区</p>
+<pre><code>alter table table_test drop if exists partition(log_date=&apos;2017-01-19&apos;);
+</code></pre></li>
+</ol>
+<h2 id="1-3-改"><a href="#1-3-改" class="headerlink" title="1.3. 改"></a>1.3. 改</h2><ol>
+<li><p>数据库改名</p>
+</li>
+<li><p>表改名</p>
+</li>
+<li><p>列改名</p>
+</li>
+</ol>
+<h2 id="1-4-查"><a href="#1-4-查" class="headerlink" title="1.4. 查"></a>1.4. 查</h2><ol>
+<li><p>查数据库</p>
+<pre><code>show databases;
+show databases like &apos;yjr*&apos;;
+</code></pre></li>
+<li><p>查表</p>
+<pre><code>show tables;
+show tables like &apos;table_test*&apos;;       
+</code></pre></li>
+<li><p>查分区</p>
+<pre><code>show partitions table_test;
+</code></pre></li>
+<li><p>查表详细信息</p>
+<pre><code>show create table table_test;
+</code></pre></li>
+</ol>
+<h1 id="2-join"><a href="#2-join" class="headerlink" title="2. join"></a>2. join</h1><ol>
+<li><p>join</p>
+</li>
+<li><p>left outer join</p>
+</li>
+<li><p>right outer join</p>
+</li>
+<li><p>full outer join</p>
+</li>
+</ol>
+<h1 id="3-UDF"><a href="#3-UDF" class="headerlink" title="3. UDF"></a>3. UDF</h1><ol>
+<li><p>Python</p>
+<pre><code>--transform必须独占一次select操作
+set hivevar:udf_file=cate_merge.py;
+set hivevar:udf_path=/home/yejinru/${udf_file};
+add file ${udf_path};
+select
+    transform(user_id) using &apos;python ${udf_file}&apos; as (user_id string, user_type BIGINT)
+from table_test;
+</code></pre></li>
+<li><p>Java</p>
+<pre><code>add jar /home/yejinru/brickhouse-0.7.1-SNAPSHOT.jar;
+create temporary function collect AS &apos;brickhouse.udf.collect.CollectUDAF&apos;;
+
+select
+    user_id,
+    collect(score) as score_vector
+from table_test;
+</code></pre></li>
+</ol>
+<h1 id="4-读写文件"><a href="#4-读写文件" class="headerlink" title="4. 读写文件"></a>4. 读写文件</h1><pre><code>1. 结果输出到文件
+
+    insert overwrite local directory &apos;/home/yejinru/output.xsl&apos;
+    row format delimited 
+    fields terminated by &apos;\t&apos;
+    lines terminated by &apos;\n&apos;
+    select
+        concat_ws(&apos;=&apos;, &apos;uid&apos;, t.user_id)
+    from (
+        select
+            user_id
+        from user
+        where log_date = &apos;2017-01-19&apos;
+    ) t;
+
+2. 从本地文件转载到hive表
+
+    load data local inpath &apos;/home/yejinru/input.log&apos;
+    into table table_test partition(log_date=&apos;2017-01-19&apos;);
+</code></pre><h1 id="5-其它"><a href="#5-其它" class="headerlink" title="5. 其它"></a>5. 其它</h1><ol>
+<li><p>文件启动</p>
+<pre><code>hive -f a.sql
+</code></pre></li>
+<li><p>指定数据库、外部传递宏、文件启动</p>
+<pre><code>hive --hiveconf mapreduce.job.name=gcm_token_sql --hiveconf mapreduce.map.memory.mb=4096 --hiveconf mapreduce.reduce.memory.mb=4096 --hiveconf mapreduce.job.queuename=yejinru --hiveconf mapreduce.map.java.opts=-Xmx8G&apos; &apos;-XX:+UseConcMarkSweepGC --hiveconf hive.auto.convert.join=false -d log_date=2017-01-19 --database yjr -v -f /home/yejinru/a.sql
+</code></pre></li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Hive/" rel="tag"># Hive</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016-11-26-hive-drop-partition/" rel="next" title="Hive Drop Partition">
+                <i class="fa fa-chevron-left"></i> Hive Drop Partition
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="yejinru" />
+          <p class="site-author-name" itemprop="name">yejinru</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yejinru" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/yejinru" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/yejinru" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/yejinru" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/yejinru" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.ay27.com/" title="ay27" target="_blank">ay27</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-增删改查"><span class="nav-number">1.</span> <span class="nav-text">1. 增删改查</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-增"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 增</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-删"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 删</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-改"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-查"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. 查</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-join"><span class="nav-number">2.</span> <span class="nav-text">2. join</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-UDF"><span class="nav-number">3.</span> <span class="nav-text">3. UDF</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-读写文件"><span class="nav-number">4.</span> <span class="nav-text">4. 读写文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-其它"><span class="nav-number">5.</span> <span class="nav-text">5. 其它</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yejinru</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
