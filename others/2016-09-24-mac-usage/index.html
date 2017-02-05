@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="webp," />
+  <meta name="keywords" content="mac," />
 
 
 
@@ -84,16 +84,16 @@
 
 
 
-<meta name="description" content="最近做了下webp解码成png、awebp（webp动画）解码为gif的功能，但是网上并没找到很合适的代码。">
+<meta name="description" content="I worte this article for my gf :)">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Webp Decode">
-<meta property="og:url" content="yejinru.github.io/2016-09-24-webpdecode/index.html">
+<meta property="og:title" content="Mac使用技巧">
+<meta property="og:url" content="yejinru.github.io/others/2016-09-24-mac-usage/index.html">
 <meta property="og:site_name" content="yejinru">
-<meta property="og:description" content="最近做了下webp解码成png、awebp（webp动画）解码为gif的功能，但是网上并没找到很合适的代码。">
-<meta property="og:updated_time" content="2017-02-05T07:28:05.000Z">
+<meta property="og:description" content="I worte this article for my gf :)">
+<meta property="og:updated_time" content="2017-02-05T08:56:58.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Webp Decode">
-<meta name="twitter:description" content="最近做了下webp解码成png、awebp（webp动画）解码为gif的功能，但是网上并没找到很合适的代码。">
+<meta name="twitter:title" content="Mac使用技巧">
+<meta name="twitter:description" content="I worte this article for my gf :)">
 
 
 
@@ -121,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="yejinru.github.io/2016-09-24-webpdecode/"/>
+  <link rel="canonical" href="yejinru.github.io/others/2016-09-24-mac-usage/"/>
 
 
 
 
 
-  <title> Webp Decode | yejinru </title>
+  <title> Mac使用技巧 | yejinru </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -260,7 +260,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="yejinru.github.io/2016-09-24-webpdecode/">
+  <link itemprop="mainEntityOfPage" href="yejinru.github.io/others/2016-09-24-mac-usage/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="yejinru">
@@ -284,7 +284,7 @@
             
             
               
-                Webp Decode
+                Mac使用技巧
               
             
           </h1>
@@ -357,14 +357,172 @@
       
 
       
-        <p>最近做了下webp解码成png、awebp（webp动画）解码为gif的功能，但是网上并没找到很合适的代码。</p>
+        <p>I worte this article for my gf :)</p>
 <a id="more"></a>
-<p>对于webp解码成png，应该比较好做，获取rgb，然后用gm对rgb数组进行解码即可。</p>
-<p>对于awebp解码成gif，则需要一帧帧取出，然后再用gm把一帧帧存到gif中。</p>
-<p>在libwebp库的demux.h头文件中，有说明如何取出awebp中的帧，具体代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">WebPDemuxer* demux = WebPDemux(&amp;webp_data);</div><div class="line"><span class="keyword">uint32_t</span> width = WebPDemuxGetI(demux, WEBP_FF_CANVAS_WIDTH);</div><div class="line"><span class="keyword">uint32_t</span> height = WebPDemuxGetI(demux, WEBP_FF_CANVAS_HEIGHT);</div><div class="line"><span class="comment">// ... (Get information about the features present in the WebP file).</span></div><div class="line"><span class="keyword">uint32_t</span> flags = WebPDemuxGetI(demux, WEBP_FF_FORMAT_FLAGS);</div><div class="line"><span class="comment">// ... (Iterate over all frames).</span></div><div class="line">WebPIterator iter;</div><div class="line"><span class="keyword">if</span> (WebPDemuxGetFrame(demux, <span class="number">1</span>, &amp;iter)) &#123;</div><div class="line">  <span class="keyword">do</span> &#123;</div><div class="line">    <span class="comment">// ... (Consume 'iter'; e.g. Decode 'iter.fragment' with WebPDecode(),</span></div><div class="line">    <span class="comment">// ... and get other frame properties like width, height, offsets etc.</span></div><div class="line">    <span class="comment">// ... see 'struct WebPIterator' below for more info).</span></div><div class="line">  &#125; <span class="keyword">while</span> (WebPDemuxNextFrame(&amp;iter));</div><div class="line">  WebPDemuxReleaseIterator(&amp;iter);</div><div class="line">&#125;</div><div class="line"><span class="comment">// ... (Extract metadata).</span></div><div class="line">WebPChunkIterator chunk_iter;</div><div class="line"><span class="keyword">if</span> (flags &amp; ICCP_FLAG) WebPDemuxGetChunk(demux, <span class="string">"ICCP"</span>, <span class="number">1</span>, &amp;chunk_iter);</div><div class="line"><span class="comment">// ... (Consume the ICC profile in 'chunk_iter.chunk').</span></div><div class="line">WebPDemuxReleaseChunkIterator(&amp;chunk_iter);</div><div class="line"><span class="keyword">if</span> (flags &amp; EXIF_FLAG) WebPDemuxGetChunk(demux, <span class="string">"EXIF"</span>, <span class="number">1</span>, &amp;chunk_iter);</div><div class="line"><span class="comment">// ... (Consume the EXIF metadata in 'chunk_iter.chunk').</span></div><div class="line">WebPDemuxReleaseChunkIterator(&amp;chunk_iter);</div><div class="line"><span class="keyword">if</span> (flags &amp; XMP_FLAG) WebPDemuxGetChunk(demux, <span class="string">"XMP "</span>, <span class="number">1</span>, &amp;chunk_iter);</div><div class="line"><span class="comment">// ... (Consume the XMP metadata in 'chunk_iter.chunk').</span></div><div class="line">WebPDemuxReleaseChunkIterator(&amp;chunk_iter);</div><div class="line">WebPDemuxDelete(demux);</div></pre></td></tr></table></figure>
-<p>最后，我们用gm来对webp/awebp进行解码：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div></pre></td><td class="code"><pre><div class="line">#include &lt;webp/decode.h&gt;</div><div class="line">#include &lt;webp/demux.h&gt;</div><div class="line">#include &lt;Magick++.h&gt;</div><div class="line">#include &lt;string&gt;</div><div class="line">#include &lt;sstream&gt;</div><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;fstream&gt;</div><div class="line">#include &lt;list&gt;</div><div class="line"></div><div class="line">class Webp &#123;</div><div class="line"></div><div class="line">public:</div><div class="line">  static bool Decode(const std::string &amp;content, const std::string &amp;out_file) &#123;</div><div class="line">    WebPData webp_data;</div><div class="line">    webp_data.bytes = reinterpret_cast&lt;const uint8_t*&gt;(content.c_str());</div><div class="line">    webp_data.size = content.size();</div><div class="line">    </div><div class="line">    WebPDemuxer* demux = WebPDemux(&amp;webp_data);</div><div class="line">    int width = WebPDemuxGetI(demux, WEBP_FF_CANVAS_WIDTH);</div><div class="line">    int height = WebPDemuxGetI(demux, WEBP_FF_CANVAS_HEIGHT);</div><div class="line">    uint32_t flags = WebPDemuxGetI(demux, WEBP_FF_FORMAT_FLAGS);</div><div class="line"></div><div class="line">    WebPIterator iter;</div><div class="line">    int fragment_cnt = 0;</div><div class="line">    std::list&lt;Magick::Image&gt; images;</div><div class="line"></div><div class="line">    if (WebPDemuxGetFrame(demux, 1, &amp;iter)) &#123;</div><div class="line">      do &#123;</div><div class="line">        ++ fragment_cnt;</div><div class="line">        WebPData &amp;fragment = iter.fragment;</div><div class="line">        uint8_t *out_data = NULL;</div><div class="line">        int length = 1;</div><div class="line"></div><div class="line">        // 读取rgb/rgba</div><div class="line">        if (iter.has_alpha) &#123;</div><div class="line">          out_data = WebPDecodeRGBA(fragment.bytes, fragment.size, &amp;width, &amp;height);</div><div class="line">          length = width * height * 4;</div><div class="line">        &#125; else &#123;</div><div class="line">          out_data = WebPDecodeRGB(fragment.bytes, fragment.size, &amp;width, &amp;height);</div><div class="line">          length = width * height * 3;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // 帧与帧之间必须设置延时，并且必须是帧与帧之间设置，否则设置会无效，导致转换后的gif变化很慢</div><div class="line">        if (fragment_cnt &gt; 1) &#123;</div><div class="line">          images.back().animationDelay(iter.duration / 10);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        std::stringstream oss2;</div><div class="line">        oss2 &lt;&lt; width &lt;&lt; "x" &lt;&lt; height;</div><div class="line"></div><div class="line">        images.push_back(Magick::Image());</div><div class="line">        Magick::Image &amp;image = images.back();</div><div class="line">        image.size(oss2.str());</div><div class="line">        image.magick(iter.has_alpha ? "RGBA" : "RGB");</div><div class="line">        Magick::Blob ori_blob(out_data, length);</div><div class="line">        image.read(ori_blob);</div><div class="line">        WebPFree(out_data);</div><div class="line">      &#125; while (WebPDemuxNextFrame(&amp;iter));</div><div class="line">    &#125;</div><div class="line">    if (fragment_cnt == 1) &#123;  // webp</div><div class="line">      images.back().write(out_file.c_str());</div><div class="line">    &#125; else &#123;  // awebp</div><div class="line">      Magick::writeImages(images.begin(), images.end(), out_file.c_str());</div><div class="line">    &#125;</div><div class="line">    WebPDemuxDelete(demux);</div><div class="line">    return true;</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">int main(int argc, char **argv) &#123;</div><div class="line">  Magick::InitializeMagick(NULL); // 对 gm 进行初始化</div><div class="line">  std::ifstream t(argv[1]); // 读取文件</div><div class="line">  std::string img_data((std::istreambuf_iterator&lt;char&gt;(t)), std::istreambuf_iterator&lt;char&gt;());</div><div class="line">  Webp::Decode(img_data, argv[2]);</div><div class="line">  return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="1-触摸板"><a href="#1-触摸板" class="headerlink" title="1. 触摸板"></a>1. 触摸板</h1><ol>
+<li><p>双手指上下滑动：上下拉动页面</p>
+</li>
+<li><p>双手指左右滑动：前进后退（浏览器上）</p>
+</li>
+<li><p>三手指上下滑动：显示所有打开的程序和界面</p>
+</li>
+<li><p>三手指左右滑动：切换到另外一个最大化的界面</p>
+</li>
+<li><p>control + 点击：相当于windows右键</p>
+</li>
+</ol>
+<h1 id="2-快捷键"><a href="#2-快捷键" class="headerlink" title="2. 快捷键"></a>2. 快捷键</h1><h2 id="2-1-浏览器-chrome"><a href="#2-1-浏览器-chrome" class="headerlink" title="2.1. 浏览器(chrome)"></a>2.1. 浏览器(chrome)</h2><ol>
+<li><p>刷新：command + r</p>
+</li>
+<li><p>查找：command + f</p>
+</li>
+<li><p>恢复上一次关闭的tab：command + shift + t</p>
+</li>
+</ol>
+<h2 id="2-2-通用（部分源于个人设置，建议看看【系统偏好设置-键盘-快捷键】"><a href="#2-2-通用（部分源于个人设置，建议看看【系统偏好设置-键盘-快捷键】" class="headerlink" title="2.2. 通用（部分源于个人设置，建议看看【系统偏好设置-键盘-快捷键】"></a>2.2. 通用（部分源于个人设置，建议看看【系统偏好设置-键盘-快捷键】</h2><ol>
+<li><p>关闭当前窗口：command + w</p>
+</li>
+<li><p>关闭整个程序：command + q</p>
+</li>
+<li><p>程序之间切换：command + tab</p>
+</li>
+<li><p>保存：command + s</p>
+</li>
+<li><p>撤销：command + z</p>
+</li>
+<li><p>拷贝：command + c</p>
+</li>
+<li><p>剪切：command + x</p>
+</li>
+<li><p>全选：command + a</p>
+</li>
+<li><p>删除文件或文件夹：command + delete</p>
+</li>
+<li><p>屏幕截屏（个人设置）：command + shift + a</p>
+</li>
+<li><p>屏幕截屏并保存到文件（个人设置）：command + shift + s</p>
+</li>
+<li><p>切换输入法（个人设置）：command + p</p>
+</li>
+<li><p>delete：</p>
+<ul>
+<li><p>delete：向前删除</p>
+</li>
+<li><p>fn + delete：先后删除</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="3-命令行操作"><a href="#3-命令行操作" class="headerlink" title="3. 命令行操作"></a>3. 命令行操作</h1><ol>
+<li><p>ls: 列出当前目录的文件及文件夹</p>
+<ul>
+<li><p>ls：列出当前目录的文件及文件夹</p>
+</li>
+<li><p>ll：列出当前目录的文件和文件夹的详细信息</p>
+</li>
+<li><p>ls folder：列出folder的信息</p>
+</li>
+<li><p>ls file：列出file的信息</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+</li>
+<li><p>pwd：打印当前所在目录</p>
+</li>
+<li><p>cd：进入文件夹</p>
+<ul>
+<li><p>cd：进入到home目录</p>
+</li>
+<li><p>cd ~：进入到home目录</p>
+</li>
+<li><p>cd -：进入到上一次所在的目录</p>
+</li>
+<li><p>cd folder：进入到folder目录</p>
+</li>
+<li><p>cd folder/subfolder：进入到folder目录下的subfolder子目录</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+</li>
+<li><p>history：列出所有历史操作命令</p>
+</li>
+<li><p>control + r: 查看历史操作命令</p>
+</li>
+<li><p>tab：可列出上一次相似命令</p>
+</li>
+<li><p>cat file：把file的信息在屏幕中打印出来</p>
+</li>
+<li><p>grep：根据过滤条件从文本信息中筛选出文本信息</p>
+<ul>
+<li><p>grep “condition” file：从file中查找带有condition字符串的行</p>
+</li>
+<li><p>grep -r “condition” folder：从folder文件夹下的所有文件查找带有condition字符串的行，condition支持正则表达式</p>
+</li>
+<li><p>grep -E “condition1|condition2” file：从file中查找符合condition1或condition2的行，condition1和condition2支持正则表达式</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+</li>
+<li><p>touch file：创建空文件file</p>
+</li>
+<li><p>mkdir：</p>
+<ul>
+<li><p>mkdir folder：创建文件夹folder</p>
+</li>
+<li><p>mkdir folder/subfolder -p：当folder不存在时，支持递归创建folder和folder的子文件夹subfolder；当folder存在时，创建subfolder</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+</li>
+<li><p>rm（慎用，一旦删除，文件或文件夹不可恢复）：</p>
+<ul>
+<li><p>rm file：删除文件file</p>
+</li>
+<li><p>rm file*：删除所有前缀为file的文件</p>
+</li>
+<li><p>rm folder -rf：递归删除文件夹folder及文件夹folder下所有子文件夹和所有子文件</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+</li>
+<li><p>clear：清空屏幕</p>
+</li>
+<li><p>control + a：在命令行模式下，返回到命令行首</p>
+</li>
+<li><p>control + e：在命令行模式下，返回到命令行末</p>
+</li>
+<li><p>control + c：停止当前操作</p>
+</li>
+<li><p>vim：自行上网学习</p>
+</li>
+<li><p>tree：</p>
+<ul>
+<li><p>tree -l folder：列出folder下所有目录、子目录、文件</p>
+</li>
+<li><p>tree -L 1 folder：只列出folder目录下第1层子目录和文件</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+</li>
+<li><p>kill：</p>
+<ul>
+<li><p>kill -9 MATLAB：强制杀掉含有MATLAB的进程</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+</li>
+<li><p>etc…</p>
+</li>
+</ol>
 
       
     </div>
@@ -388,7 +546,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/webp/" rel="tag"># webp</a>
+            <a href="/tags/mac/" rel="tag"># mac</a>
           
         </div>
       
@@ -397,7 +555,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016-04-18-httplib-tcp-nodelay/" rel="next" title="Python Httplib">
+              <a href="/python/2016-04-18-httplib-tcp-nodelay/" rel="next" title="Python Httplib">
                 <i class="fa fa-chevron-left"></i> Python Httplib
               </a>
             
@@ -407,8 +565,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016-09-24-mac-usage/" rel="prev" title="Mac使用技巧">
-                Mac使用技巧 <i class="fa fa-chevron-right"></i>
+              <a href="/others/2016-09-24-webpdecode/" rel="prev" title="Webp Decode">
+                Webp Decode <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -456,8 +614,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -479,7 +646,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -574,6 +741,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-触摸板"><span class="nav-number">1.</span> <span class="nav-text">1. 触摸板</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-快捷键"><span class="nav-number">2.</span> <span class="nav-text">2. 快捷键</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-浏览器-chrome"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. 浏览器(chrome)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-通用（部分源于个人设置，建议看看【系统偏好设置-键盘-快捷键】"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. 通用（部分源于个人设置，建议看看【系统偏好设置-键盘-快捷键】</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-命令行操作"><span class="nav-number">3.</span> <span class="nav-text">3. 命令行操作</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>

@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="mac," />
+  <meta name="keywords" content="git," />
 
 
 
@@ -84,16 +84,16 @@
 
 
 
-<meta name="description" content="I worte this article for my gf :)">
+<meta name="description" content="本文记录了git常用命令。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mac使用技巧">
-<meta property="og:url" content="yejinru.github.io/2016-09-24-mac-usage/index.html">
+<meta property="og:title" content="Git">
+<meta property="og:url" content="yejinru.github.io/others/2016-10-18-git/index.html">
 <meta property="og:site_name" content="yejinru">
-<meta property="og:description" content="I worte this article for my gf :)">
-<meta property="og:updated_time" content="2017-02-05T07:25:34.000Z">
+<meta property="og:description" content="本文记录了git常用命令。">
+<meta property="og:updated_time" content="2017-02-05T08:56:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mac使用技巧">
-<meta name="twitter:description" content="I worte this article for my gf :)">
+<meta name="twitter:title" content="Git">
+<meta name="twitter:description" content="本文记录了git常用命令。">
 
 
 
@@ -121,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="yejinru.github.io/2016-09-24-mac-usage/"/>
+  <link rel="canonical" href="yejinru.github.io/others/2016-10-18-git/"/>
 
 
 
 
 
-  <title> Mac使用技巧 | yejinru </title>
+  <title> Git | yejinru </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -260,7 +260,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="yejinru.github.io/2016-09-24-mac-usage/">
+  <link itemprop="mainEntityOfPage" href="yejinru.github.io/others/2016-10-18-git/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="yejinru">
@@ -284,7 +284,7 @@
             
             
               
-                Mac使用技巧
+                Git
               
             
           </h1>
@@ -299,8 +299,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-09-24T00:00:00+08:00">
-                2016-09-24
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-10-05T00:00:00+08:00">
+                2016-10-05
               </time>
             
 
@@ -322,8 +322,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/mac/" itemprop="url" rel="index">
-                    <span itemprop="name">mac</span>
+                  <a href="/categories/others/" itemprop="url" rel="index">
+                    <span itemprop="name">others</span>
                   </a>
                 </span>
 
@@ -357,170 +357,91 @@
       
 
       
-        <p>I worte this article for my gf :)</p>
+        <p>本文记录了git常用命令。</p>
 <a id="more"></a>
-<h1 id="1-触摸板"><a href="#1-触摸板" class="headerlink" title="1. 触摸板"></a>1. 触摸板</h1><ol>
-<li><p>双手指上下滑动：上下拉动页面</p>
+<ol>
+<li>创建项目：</li>
+</ol>
+<ol>
+<li><p>下载代码：</p>
+<ol>
+<li><p>下载代码：git clone ${xxx.git}</p>
 </li>
-<li><p>双手指左右滑动：前进后退（浏览器上）</p>
+<li><p>下载指定分支的代码：git clone -b ${branch_name} ${xxx.git}</p>
 </li>
-<li><p>三手指上下滑动：显示所有打开的程序和界面</p>
-</li>
-<li><p>三手指左右滑动：切换到另外一个最大化的界面</p>
-</li>
-<li><p>control + 点击：相当于windows右键</p>
+<li><p>根据commit_id下载文件：git checkout -b ${branch_name} ${commit_id}</p>
 </li>
 </ol>
-<h1 id="2-快捷键"><a href="#2-快捷键" class="headerlink" title="2. 快捷键"></a>2. 快捷键</h1><h2 id="2-1-浏览器-chrome"><a href="#2-1-浏览器-chrome" class="headerlink" title="2.1. 浏览器(chrome)"></a>2.1. 浏览器(chrome)</h2><ol>
-<li><p>刷新：command + r</p>
 </li>
-<li><p>查找：command + f</p>
+<li><p>分支管理：</p>
+<ol>
+<li><p>查看分支：git branch</p>
 </li>
-<li><p>恢复上一次关闭的tab：command + shift + t</p>
+<li><p>创建分支：git branch <name></name></p>
 </li>
-</ol>
-<h2 id="2-2-通用（部分源于个人设置，建议看看【系统偏好设置-键盘-快捷键】"><a href="#2-2-通用（部分源于个人设置，建议看看【系统偏好设置-键盘-快捷键】" class="headerlink" title="2.2. 通用（部分源于个人设置，建议看看【系统偏好设置-键盘-快捷键】"></a>2.2. 通用（部分源于个人设置，建议看看【系统偏好设置-键盘-快捷键】</h2><ol>
-<li><p>关闭当前窗口：command + w</p>
+<li><p>切换分支：git checkout ${branch_name}</p>
 </li>
-<li><p>关闭整个程序：command + q</p>
+<li><p>创建+切换分支：git checkout -b ${branch_name}</p>
 </li>
-<li><p>程序之间切换：command + tab</p>
+<li><p>删除本地分支：git branch -D ${branch_name}</p>
 </li>
-<li><p>保存：command + s</p>
+<li><p>删除远程分支：git push origin :${branch_name}</p>
 </li>
-<li><p>撤销：command + z</p>
+<li><p>合并某分支到当前分支：git merge ${branch_name}</p>
 </li>
-<li><p>拷贝：command + c</p>
-</li>
-<li><p>剪切：command + x</p>
-</li>
-<li><p>全选：command + a</p>
-</li>
-<li><p>删除文件或文件夹：command + delete</p>
-</li>
-<li><p>屏幕截屏（个人设置）：command + shift + a</p>
-</li>
-<li><p>屏幕截屏并保存到文件（个人设置）：command + shift + s</p>
-</li>
-<li><p>切换输入法（个人设置）：command + p</p>
-</li>
-<li><p>delete：</p>
-<ul>
-<li><p>delete：向前删除</p>
-</li>
-<li><p>fn + delete：先后删除</p>
-</li>
-<li><p>…</p>
-</li>
-</ul>
+<li><p>根据commit_id进行merge：git merge ${commit_id}</p>
 </li>
 </ol>
-<h1 id="3-命令行操作"><a href="#3-命令行操作" class="headerlink" title="3. 命令行操作"></a>3. 命令行操作</h1><ol>
-<li><p>ls: 列出当前目录的文件及文件夹</p>
-<ul>
-<li><p>ls：列出当前目录的文件及文件夹</p>
 </li>
-<li><p>ll：列出当前目录的文件和文件夹的详细信息</p>
+<li><p>开发</p>
+<ol>
+<li><p>查看当前文件和文件夹状态：git status</p>
 </li>
-<li><p>ls folder：列出folder的信息</p>
+<li><p>查看diff：git diff</p>
 </li>
-<li><p>ls file：列出file的信息</p>
+<li><p>拉取代码：git pull origin ${banch_name}</p>
 </li>
-<li><p>…</p>
+</ol>
 </li>
-</ul>
+<li><p>上传代码：</p>
+<ol>
+<li><p>添加文件：git add ${file_name}</p>
 </li>
-<li><p>pwd：打印当前所在目录</p>
+<li><p>添加文件夹：git add ${folder_name}</p>
 </li>
-<li><p>cd：进入文件夹</p>
-<ul>
-<li><p>cd：进入到home目录</p>
+<li><p>提交：git commit -m “${your_commit_note}”</p>
 </li>
-<li><p>cd ~：进入到home目录</p>
+<li><p>推到远程目录：git push origin ${branch_name}</p>
 </li>
-<li><p>cd -：进入到上一次所在的目录</p>
+</ol>
 </li>
-<li><p>cd folder：进入到folder目录</p>
+<li><p>tag：</p>
+<ol>
+<li><p>打tag：git tag -a ${tag_name} -m “${tag_message}”</p>
 </li>
-<li><p>cd folder/subfolder：进入到folder目录下的subfolder子目录</p>
+<li><p>推tag到远程仓库：git push origin ${tag_name}</p>
 </li>
-<li><p>…</p>
+<li><p>删除tag：git push origin –delete tag ${tag_name}</p>
 </li>
-</ul>
+</ol>
 </li>
-<li><p>history：列出所有历史操作命令</p>
+<li><p>下载相关依赖的子模块：</p>
+<p>   git submodule init</p>
+<p>   git submodule update</p>
 </li>
-<li><p>control + r: 查看历史操作命令</p>
+<li><p>其它：</p>
+<ol>
+<li><p>查看当前分支最近的提交记录：git log -2</p>
 </li>
-<li><p>tab：可列出上一次相似命令</p>
+<li><p>查看最近一次的提交信息：git log -n 1 -p</p>
 </li>
-<li><p>cat file：把file的信息在屏幕中打印出来</p>
+<li><p>查看指定的commit的内容：git show commit_id</p>
 </li>
-<li><p>grep：根据过滤条件从文本信息中筛选出文本信息</p>
-<ul>
-<li><p>grep “condition” file：从file中查找带有condition字符串的行</p>
+<li><p>添加全局密码：</p>
+<p> eval $(ssh-agent)</p>
+<p> ssh-add</p>
 </li>
-<li><p>grep -r “condition” folder：从folder文件夹下的所有文件查找带有condition字符串的行，condition支持正则表达式</p>
-</li>
-<li><p>grep -E “condition1|condition2” file：从file中查找符合condition1或condition2的行，condition1和condition2支持正则表达式</p>
-</li>
-<li><p>…</p>
-</li>
-</ul>
-</li>
-<li><p>touch file：创建空文件file</p>
-</li>
-<li><p>mkdir：</p>
-<ul>
-<li><p>mkdir folder：创建文件夹folder</p>
-</li>
-<li><p>mkdir folder/subfolder -p：当folder不存在时，支持递归创建folder和folder的子文件夹subfolder；当folder存在时，创建subfolder</p>
-</li>
-<li><p>…</p>
-</li>
-</ul>
-</li>
-<li><p>rm（慎用，一旦删除，文件或文件夹不可恢复）：</p>
-<ul>
-<li><p>rm file：删除文件file</p>
-</li>
-<li><p>rm file*：删除所有前缀为file的文件</p>
-</li>
-<li><p>rm folder -rf：递归删除文件夹folder及文件夹folder下所有子文件夹和所有子文件</p>
-</li>
-<li><p>…</p>
-</li>
-</ul>
-</li>
-<li><p>clear：清空屏幕</p>
-</li>
-<li><p>control + a：在命令行模式下，返回到命令行首</p>
-</li>
-<li><p>control + e：在命令行模式下，返回到命令行末</p>
-</li>
-<li><p>control + c：停止当前操作</p>
-</li>
-<li><p>vim：自行上网学习</p>
-</li>
-<li><p>tree：</p>
-<ul>
-<li><p>tree -l folder：列出folder下所有目录、子目录、文件</p>
-</li>
-<li><p>tree -L 1 folder：只列出folder目录下第1层子目录和文件</p>
-</li>
-<li><p>…</p>
-</li>
-</ul>
-</li>
-<li><p>kill：</p>
-<ul>
-<li><p>kill -9 MATLAB：强制杀掉含有MATLAB的进程</p>
-</li>
-<li><p>…</p>
-</li>
-</ul>
-</li>
-<li><p>etc…</p>
+</ol>
 </li>
 </ol>
 
@@ -546,7 +467,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mac/" rel="tag"># mac</a>
+            <a href="/tags/git/" rel="tag"># git</a>
           
         </div>
       
@@ -555,8 +476,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016-09-24-webpdecode/" rel="next" title="Webp Decode">
-                <i class="fa fa-chevron-left"></i> Webp Decode
+              <a href="/others/2016-09-29-vimrc/" rel="next" title="My Vimrc">
+                <i class="fa fa-chevron-left"></i> My Vimrc
               </a>
             
           </div>
@@ -565,8 +486,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016-09-29-vimrc/" rel="prev" title="My Vimrc">
-                My Vimrc <i class="fa fa-chevron-right"></i>
+              <a href="/ml/2017-01-08-cs229/" rel="prev" title="斯坦福CS229">
+                斯坦福CS229 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -614,17 +535,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -646,7 +558,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -741,22 +653,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-触摸板"><span class="nav-number">1.</span> <span class="nav-text">1. 触摸板</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-快捷键"><span class="nav-number">2.</span> <span class="nav-text">2. 快捷键</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-浏览器-chrome"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. 浏览器(chrome)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-通用（部分源于个人设置，建议看看【系统偏好设置-键盘-快捷键】"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. 通用（部分源于个人设置，建议看看【系统偏好设置-键盘-快捷键】</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-命令行操作"><span class="nav-number">3.</span> <span class="nav-text">3. 命令行操作</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
     </div>

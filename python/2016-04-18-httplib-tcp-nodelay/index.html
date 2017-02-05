@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="python,tcp," />
 
 
 
@@ -84,16 +84,16 @@
 
 
 
-<meta name="description" content="关于本博客欢迎大家来到我的个人博客~">
+<meta name="description" content="上周工作时，需要用到python的httplib库，写一个简单的http client。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="First Blog Article">
-<meta property="og:url" content="yejinru.github.io/2016-01-19-first-blog/index.html">
+<meta property="og:title" content="Python Httplib">
+<meta property="og:url" content="yejinru.github.io/python/2016-04-18-httplib-tcp-nodelay/index.html">
 <meta property="og:site_name" content="yejinru">
-<meta property="og:description" content="关于本博客欢迎大家来到我的个人博客~">
-<meta property="og:updated_time" content="2017-02-05T05:49:30.000Z">
+<meta property="og:description" content="上周工作时，需要用到python的httplib库，写一个简单的http client。">
+<meta property="og:updated_time" content="2017-02-05T07:25:04.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="First Blog Article">
-<meta name="twitter:description" content="关于本博客欢迎大家来到我的个人博客~">
+<meta name="twitter:title" content="Python Httplib">
+<meta name="twitter:description" content="上周工作时，需要用到python的httplib库，写一个简单的http client。">
 
 
 
@@ -121,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="yejinru.github.io/2016-01-19-first-blog/"/>
+  <link rel="canonical" href="yejinru.github.io/python/2016-04-18-httplib-tcp-nodelay/"/>
 
 
 
 
 
-  <title> First Blog Article | yejinru </title>
+  <title> Python Httplib | yejinru </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -260,7 +260,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="yejinru.github.io/2016-01-19-first-blog/">
+  <link itemprop="mainEntityOfPage" href="yejinru.github.io/python/2016-04-18-httplib-tcp-nodelay/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="yejinru">
@@ -284,7 +284,7 @@
             
             
               
-                First Blog Article
+                Python Httplib
               
             
           </h1>
@@ -299,8 +299,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-01-19T00:00:00+08:00">
-                2016-01-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-04-18T00:00:00+08:00">
+                2016-04-18
               </time>
             
 
@@ -309,6 +309,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -335,7 +357,18 @@
       
 
       
-        <h2 id="关于本博客"><a href="#关于本博客" class="headerlink" title="关于本博客"></a>关于本博客</h2><p>欢迎大家来到我的个人博客~</p>
+        <p>上周工作时，需要用到python的httplib库，写一个简单的http client。</p>
+<a id="more"></a>
+<p>大体的代码段如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> httplib</div><div class="line">http_connection = httplib.HTTPConnection(<span class="string">"127.0.0.1"</span>, <span class="number">12378</span>)</div><div class="line">http_connection.request(<span class="string">"GET"</span>, <span class="string">"/"</span>)</div><div class="line">rsp = http_connection.getresponse()</div><div class="line">rsp_body = rsp.read()</div><div class="line">rsp.close()</div><div class="line">http_connection.close()</div></pre></td></tr></table></figure>
+<p>打印耗时，大约需要41ms。由于是对单机server进行http请求，理论上耗时应该在1ms左右。</p>
+<p>在程序内部进行打点计时输出（具体耗时已不可考，大致列了下时间）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> httplib</div><div class="line">http_connection = httplib.HTTPConnection(<span class="string">"127.0.0.1"</span>, <span class="number">12378</span>)</div><div class="line"><span class="comment"># 0.0 ms</span></div><div class="line">http_connection.request(<span class="string">"GET"</span>, <span class="string">"/"</span>)</div><div class="line"><span class="comment"># 0.1 ms</span></div><div class="line">rsp = http_connection.getresponse()</div><div class="line"><span class="comment"># 40.5 ms</span></div><div class="line">rsp_body = rsp.read()</div><div class="line"><span class="comment"># 40.6 ms</span></div><div class="line">rsp.close()</div><div class="line"><span class="comment"># 40.6 ms</span></div><div class="line">http_connection.close()</div><div class="line"><span class="comment"># 40.6 ms</span></div></pre></td></tr></table></figure>
+<p>查了很多资料，最后发现是<a href="http://baike.baidu.com/link?url=DHKBJsgU1PgVRYyLgyZ2HmSneCPXsi69iDzdm6PuW6LLErBJZRrQuvZfwlonnGfuL9ZOFcTBbp7Nc1MkiPXb-K" target="_blank" rel="external">Nagle算法</a>引起的。</p>
+<p>在Linux系统中，默认打开Nagle算法，因此我们需要对其进行关闭。</p>
+<p>对于httplib库，可以采用以下方式来解决该问题：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> httplib</div><div class="line"></div><div class="line">realsocket = socket.socket</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">socketwrap</span><span class="params">(family=socket.AF_INET, typee=socket.SOCK_STREAM, proto=<span class="number">0</span>)</span>:</span></div><div class="line">    sockobj = realsocket(family, typee, proto)</div><div class="line">    sockobj.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, <span class="number">1</span>)</div><div class="line">    <span class="keyword">return</span> sockobj</div><div class="line">socket.socket = socketwrap</div><div class="line"></div><div class="line">http_connection = httplib.HTTPConnection(<span class="string">"127.0.0.1"</span>, <span class="number">12378</span>)</div><div class="line">http_connection.request(<span class="string">"GET"</span>, <span class="string">"/"</span>)</div><div class="line">rsp = http_connection.getresponse()</div><div class="line">rsp_body = rsp.read()</div><div class="line">rsp.close()</div><div class="line">http_connection.close()</div></pre></td></tr></table></figure>
+<p>参考：<a href="http://www.cmlenz.net/archives/2008/03/python-httplib-performance-problems" target="_blank" rel="external">python-httplib-performance-problems</a></p>
 
       
     </div>
@@ -357,10 +390,22 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/tcp/" rel="tag"># tcp</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/others/2016-01-19-first-blog/" rel="next" title="First Blog Article">
+                <i class="fa fa-chevron-left"></i> First Blog Article
+              </a>
             
           </div>
 
@@ -368,8 +413,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016-04-18-httplib-tcp-nodelay/" rel="prev" title="Python Httplib">
-                Python Httplib <i class="fa fa-chevron-right"></i>
+              <a href="/others/2016-09-24-mac-usage/" rel="prev" title="Mac使用技巧">
+                Mac使用技巧 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -417,17 +462,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -449,7 +485,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -544,22 +580,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于本博客"><span class="nav-number">1.</span> <span class="nav-text">关于本博客</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
     </div>
