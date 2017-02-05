@@ -7,7 +7,7 @@
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -87,15 +87,15 @@
 <meta name="description" content="本文记录了cs229课程的笔记。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="斯坦福CS229">
-<meta property="og:url" content="yejinru.github.io/ml/2017-01-08-cs229/index.html">
+<meta property="og:url" content="yejinru.github.io/ml/2017-02-05-cs229/index.html">
 <meta property="og:site_name" content="yejinru">
 <meta property="og:description" content="本文记录了cs229课程的笔记。">
-<meta property="og:image" content="yejinru.github.io/img/coursera/cs229/hypothesis.jpg">
-<meta property="og:updated_time" content="2017-02-05T08:51:39.000Z">
+<meta property="og:image" content="yejinru.github.io/img/ml/cs229/hypothesis.png">
+<meta property="og:updated_time" content="2017-02-05T10:34:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="斯坦福CS229">
 <meta name="twitter:description" content="本文记录了cs229课程的笔记。">
-<meta name="twitter:image" content="yejinru.github.io/img/coursera/cs229/hypothesis.jpg">
+<meta name="twitter:image" content="yejinru.github.io/img/ml/cs229/hypothesis.png">
 
 
 
@@ -104,7 +104,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
+    sidebar: {"position":"left","display":"always"},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -123,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="yejinru.github.io/ml/2017-01-08-cs229/"/>
+  <link rel="canonical" href="yejinru.github.io/ml/2017-02-05-cs229/"/>
 
 
 
 
 
-  <title> 斯坦福CS229 | yejinru </title>
+  <title> 斯坦福CS229 | yejinru </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -137,6 +137,16 @@
   
 
 
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?dac7c910c332057b64b03745998b9232";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
 
 
@@ -262,7 +272,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="yejinru.github.io/ml/2017-01-08-cs229/">
+  <link itemprop="mainEntityOfPage" href="yejinru.github.io/ml/2017-02-05-cs229/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="yejinru">
@@ -301,8 +311,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-26T00:00:00+08:00">
-                2016-11-26
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-05T17:00:00+08:00">
+                2017-02-05
               </time>
             
 
@@ -336,6 +346,16 @@
           
 
           
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/ml/2017-02-05-cs229/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="ml/2017-02-05-cs229/" itemprop="commentCount"></span>
+                </a>
+              </span>
             
           
 
@@ -379,31 +399,66 @@
 <p> 例子：当狗做对了给狗奖励，当狗做错了给狗惩罚，最终狗会越来越听话。</p>
 </li>
 <li><p>Notations:</p>
-<p> $$ x^{(i)} $$ : input variables，输入变量</p>
-<p> $$ y^{(i)} $$ : output(target) variables，输入变量</p>
-<p> $$ (x^{(i)}, y^{(i)}) $$ : training example，训练样本</p>
-<p> a list of m training examples { $$ (x^{(i)}, y^{(i)}) $$ ; i = 1, . . . ,m} is called a training set，训练集</p>
+<p> <span>$x^{(i)}$</span><!-- Has MathJax --> : input variables，输入变量</p>
+<p> <span>$y^{(i)}$</span><!-- Has MathJax --> : output(target) variables，输入变量</p>
+<p> <span>$(x^{(i)}, y^{(i)})$</span><!-- Has MathJax --> : training example，训练样本</p>
+<p> a list of m training examples { <span>$(x^{(i)}, y^{(i)})$</span><!-- Has MathJax --> ; i = 1, . . . ,m} is called a training set，训练集</p>
 <p> 回归：y的取值是连续的</p>
 <p> 分类：y的取值是一个很小的集合</p>
 <p> h: hypothesis, 假设函数</p>
-<p> <img src="/img/coursera/cs229/hypothesis.jpg" alt="Alt text" title="hypothesis"></p>
+<p> <img src="/img/ml/cs229/hypothesis.png" alt="hypothesis"></p>
 </li>
 </ol>
-<h1 id="2-第二课"><a href="#2-第二课" class="headerlink" title="2. 第二课"></a>2. 第二课</h1><h2 id="2-1-Linear-Regression-线性回归"><a href="#2-1-Linear-Regression-线性回归" class="headerlink" title="2.1. Linear Regression: 线性回归"></a>2.1. Linear Regression: 线性回归</h2><ol>
+<h1 id="2-第二课"><a href="#2-第二课" class="headerlink" title="2. 第二课"></a>2. 第二课</h1><h2 id="2-1-Linear-Regression-线性回归"><a href="#2-1-Linear-Regression-线性回归" class="headerlink" title="2.1. Linear Regression: 线性回归"></a>2.1. Linear Regression: 线性回归</h2><table>
+<thead>
+<tr>
+<th>Living area (feet^2)</th>
+<th>#bedrooms</th>
+<th>Price (1000$s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2104</td>
+<td>3</td>
+<td>400           </td>
+</tr>
+<tr>
+<td>1600</td>
+<td>3</td>
+<td>330           </td>
+</tr>
+<tr>
+<td>2400</td>
+<td>3</td>
+<td>369           </td>
+</tr>
+<tr>
+<td>1416</td>
+<td>2</td>
+<td>232           </td>
+</tr>
+<tr>
+<td>3000</td>
+<td>4</td>
+<td>540           </td>
+</tr>
+<tr>
+<td>.</td>
+<td>.</td>
+<td>.             </td>
+</tr>
+</tbody>
+</table>
+<ol>
 <li><p>我们引入两个feature来预测房价</p>
-<p> Living area (feet^2)|#bedrooms| Price (1000$s)<br> ——————–|———|—————<br> 2104                | 3       | 400<br> 1600                | 3       | 330<br> 2400                | 3       | 369<br> 1416                | 2       | 232<br> 3000                | 4       | 540<br> .                   | .       | .</p>
-<p> $$ x_1^{(i)} $$ : 第i个房子的Living area</p>
-<p> $$ x_2^{(i)} $$ : 第i个房子的bedrooms个数</p>
-<p> 使用线性函数来预测房价如下：</p>
-<p> $$ h_\Theta(x) = θ_0 + θ_1x_1 + θ_2x_2 $$</p>
-<p> 定义 $$ x_0 = 1 $$，我们可以简化公式如下：</p>
-<p> $$ h<em>\Theta(x) = \sum</em>{i=0}^n {\Theta_ix_i} = \Theta^Tx $$</p>
-<p> 代价函数(cost function)定义如下：</p>
-<p> $$ J(\Theta) = \frac{1}{2} \sum<em>{i=1}^m {(h</em>\Theta(x^{(i)}) - y^{(i)}) ^ 2} $$</p>
-<p> 通过调整 $$ \theta $$，最小化 $$ J(\Theta) $$，求得最优解。</p>
+ <span>$x_1^{(i)}$</span><!-- Has MathJax --> : 第i个房子的Living area<br><br> <span>$x_2^{(i)}$</span><!-- Has MathJax --> : 第i个房子的bedrooms个数<br><br> 使用线性函数来预测房价如下：<span>$h_\Theta(x) = &theta;_0 + &theta;_1x_1 + &theta;_2x_2$</span><!-- Has MathJax -->
+<p> 定义 <span>$x_0 = 1$</span><!-- Has MathJax -->，我们可以简化公式如下：<span>$h_\Theta(x) = \sum_{i=0}^n {\Theta_ix_i} = \Theta^Tx$</span><!-- Has MathJax --></p>
+<p> 代价函数(cost function)定义如下：<span>$J(\Theta) = \frac{1}{2} \sum_{i=1}^m {(h_\Theta(x^{(i)}) - y^{(i)}) ^ 2}$</span><!-- Has MathJax --></p>
+<p> 通过调整 <span>$\theta$</span><!-- Has MathJax -->，最小化 <span>$J(\Theta)$</span><!-- Has MathJax -->，求得最优解。</p>
 </li>
 <li><p>LMS解法</p>
-<p> 求解$$ J(\Theta) $$最小值，我们可以使用梯度下降法来求解。</p>
+<p> 求解<span>$J(\Theta)$</span><!-- Has MathJax -->最小值，我们可以使用梯度下降法来求解。</p>
 </li>
 </ol>
 
@@ -438,8 +493,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/others/2016-10-18-git/" rel="next" title="Git">
-                <i class="fa fa-chevron-left"></i> Git
+              <a href="/sql/2017-01-19-hive-usage/" rel="next" title="Hive SQL">
+                <i class="fa fa-chevron-left"></i> Hive SQL
               </a>
             
           </div>
@@ -447,10 +502,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/sql/2016-11-26-hive-drop-partition/" rel="prev" title="Hive Drop Partition">
-                Hive Drop Partition <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -475,6 +526,10 @@
 
           
   <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="ml/2017-02-05-cs229/"
+           data-title="斯坦福CS229" data-url="yejinru.github.io/ml/2017-02-05-cs229/">
+      </div>
     
   </div>
 
@@ -529,7 +584,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -538,7 +593,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -753,32 +808,37 @@
 
   
 
+  
+    
+  
 
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yejinru"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
 
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
   
 
 
 
 
-	
 
 
 
 
-
-  
-
-
-
-
-
-  
-
-  
-      <!-- UY BEGIN -->
-      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
-      <!-- UY END -->
-  
 
 
 
@@ -806,7 +866,24 @@
         }
       });
     </script>
-    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
   
 
 
