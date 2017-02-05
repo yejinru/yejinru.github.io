@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="yejinru">
 <meta property="og:description" content="本文记录了cs229课程的笔记。">
 <meta property="og:image" content="yejinru.github.io/img/ml/cs229/hypothesis.png">
-<meta property="og:updated_time" content="2017-02-05T10:34:30.000Z">
+<meta property="og:updated_time" content="2017-02-05T15:40:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="斯坦福CS229">
 <meta name="twitter:description" content="本文记录了cs229课程的笔记。">
@@ -399,10 +399,10 @@
 <p> 例子：当狗做对了给狗奖励，当狗做错了给狗惩罚，最终狗会越来越听话。</p>
 </li>
 <li><p>Notations:</p>
-<p> <span>$x^{(i)}$</span><!-- Has MathJax --> : input variables，输入变量</p>
-<p> <span>$y^{(i)}$</span><!-- Has MathJax --> : output(target) variables，输入变量</p>
-<p> <span>$(x^{(i)}, y^{(i)})$</span><!-- Has MathJax --> : training example，训练样本</p>
-<p> a list of m training examples { <span>$(x^{(i)}, y^{(i)})$</span><!-- Has MathJax --> ; i = 1, . . . ,m} is called a training set，训练集</p>
+<p> $ x^{(i)} $ : input variables，输入变量</p>
+<p> $ y^{(i)} $ : output(target) variables，输入变量</p>
+<p> $ (x^{(i)}, y^{(i)}) $ : training example，训练样本</p>
+<p> a list of m training examples { $ (x^{(i)}, y^{(i)}) $ ; i = 1, . . . ,m} is called a training set，训练集</p>
 <p> 回归：y的取值是连续的</p>
 <p> 分类：y的取值是一个很小的集合</p>
 <p> h: hypothesis, 假设函数</p>
@@ -451,14 +451,21 @@
 </tbody>
 </table>
 <ol>
-<li><p>我们引入两个feature来预测房价</p>
- <span>$x_1^{(i)}$</span><!-- Has MathJax --> : 第i个房子的Living area<br><br> <span>$x_2^{(i)}$</span><!-- Has MathJax --> : 第i个房子的bedrooms个数<br><br> 使用线性函数来预测房价如下：<span>$h_\Theta(x) = &theta;_0 + &theta;_1x_1 + &theta;_2x_2$</span><!-- Has MathJax -->
-<p> 定义 <span>$x_0 = 1$</span><!-- Has MathJax -->，我们可以简化公式如下：<span>$h_\Theta(x) = \sum_{i=0}^n {\Theta_ix_i} = \Theta^Tx$</span><!-- Has MathJax --></p>
-<p> 代价函数(cost function)定义如下：<span>$J(\Theta) = \frac{1}{2} \sum_{i=1}^m {(h_\Theta(x^{(i)}) - y^{(i)}) ^ 2}$</span><!-- Has MathJax --></p>
-<p> 通过调整 <span>$\theta$</span><!-- Has MathJax -->，最小化 <span>$J(\Theta)$</span><!-- Has MathJax -->，求得最优解。</p>
+<li><p>我们引入两个feature来预测房价:</p>
+<p> $ x_1^{(i)} $ : 第i个房子的Living area</p>
+<p> $ x_2^{(i)} $ : 第i个房子的bedrooms个数</p>
 </li>
-<li><p>LMS解法</p>
-<p> 求解<span>$J(\Theta)$</span><!-- Has MathJax -->最小值，我们可以使用梯度下降法来求解。</p>
+<li><p>使用线性函数来预测房价如下:</p>
+<p> $$ h_\theta(x) = θ_0 + θ_1x_1 + θ_2x_2 $$</p>
+<p> 定义 $ x_0 = 1 $，我们可以简化公式如下:</p>
+<p> $$ h_\theta(x) = \sum_{i=0}^n {\theta_ix_i} = \theta^Tx $$</p>
+<p> 代价函数(cost function)定义如下：</p>
+<p> $$ J(\theta) = \frac{1}{2} \sum_{i=1}^m {(h_\theta(x^{(i)}) - y^{(i)}) ^ 2} $$</p>
+<p> 通过调整 $ \theta $，最小化 $ J(\theta) $，求得最优解。</p>
+</li>
+<li><p>LMS(least mean squares)：最小二乘法</p>
+<p> 求解 $ J(\theta) $ 极小值，我们可以使用梯度下降法来求解。梯度下降法求解的有可能是局部极小值，这与 $ \theta $ 的初始值有关。</p>
+<p>  $$ \theta_j := \theta_j-\alpha{\frac{\partial}{\partial\theta_j}}J(\theta) $$ </p>
 </li>
 </ol>
 
@@ -866,24 +873,7 @@
         }
       });
     </script>
-    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
