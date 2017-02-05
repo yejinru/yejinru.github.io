@@ -84,22 +84,16 @@
 
 
 
-<meta name="description" content="上周工作时，需要用到python的httplib库，写一个简单的http client。
-大体的代码段如下：
-1234567import httplibhttp_connection = httplib.HTTPConnection(&quot;127.0.0.1&quot;, 12378)http_connection.request(&quot;GET&quot;, &quot;/&quot;)rsp = http_connection.getresp">
+<meta name="description" content="上周工作时，需要用到python的httplib库，写一个简单的http client。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python Httplib">
 <meta property="og:url" content="yejinru.github.io/2016-04-18-httplib-tcp-nodelay/index.html">
 <meta property="og:site_name" content="yejinru">
-<meta property="og:description" content="上周工作时，需要用到python的httplib库，写一个简单的http client。
-大体的代码段如下：
-1234567import httplibhttp_connection = httplib.HTTPConnection(&quot;127.0.0.1&quot;, 12378)http_connection.request(&quot;GET&quot;, &quot;/&quot;)rsp = http_connection.getresp">
-<meta property="og:updated_time" content="2017-02-05T05:49:30.000Z">
+<meta property="og:description" content="上周工作时，需要用到python的httplib库，写一个简单的http client。">
+<meta property="og:updated_time" content="2017-02-05T07:25:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python Httplib">
-<meta name="twitter:description" content="上周工作时，需要用到python的httplib库，写一个简单的http client。
-大体的代码段如下：
-1234567import httplibhttp_connection = httplib.HTTPConnection(&quot;127.0.0.1&quot;, 12378)http_connection.request(&quot;GET&quot;, &quot;/&quot;)rsp = http_connection.getresp">
+<meta name="twitter:description" content="上周工作时，需要用到python的httplib库，写一个简单的http client。">
 
 
 
@@ -316,6 +310,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -342,6 +358,7 @@
 
       
         <p>上周工作时，需要用到python的httplib库，写一个简单的http client。</p>
+<a id="more"></a>
 <p>大体的代码段如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> httplib</div><div class="line">http_connection = httplib.HTTPConnection(<span class="string">"127.0.0.1"</span>, <span class="number">12378</span>)</div><div class="line">http_connection.request(<span class="string">"GET"</span>, <span class="string">"/"</span>)</div><div class="line">rsp = http_connection.getresponse()</div><div class="line">rsp_body = rsp.read()</div><div class="line">rsp.close()</div><div class="line">http_connection.close()</div></pre></td></tr></table></figure>
 <p>打印耗时，大约需要41ms。由于是对单机server进行http请求，理论上耗时应该在1ms左右。</p>
@@ -466,11 +483,18 @@
           
 
           
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
 
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

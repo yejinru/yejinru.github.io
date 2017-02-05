@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hive," />
+  <meta name="keywords" content="hive," />
 
 
 
@@ -98,7 +98,7 @@
 查看这张表的hdfs存储小文件，发现有从某个小文件开始，时间戳跟前面小文件的时间戳差一天（黑人问号脸）。因此怀疑就是这部分小文件搞的鬼。
 查看下创建hive表的sql语句，创建的是外部表。
 由于">
-<meta property="og:updated_time" content="2017-02-05T05:49:30.000Z">
+<meta property="og:updated_time" content="2017-02-05T07:31:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hive Drop Partition">
 <meta name="twitter:description" content="1. 背景前几天生产任务突然慢了很多，查看下hdfs，发现从某天开始数据量比前一天几乎增加了一倍（这是要搞一个大新闻(╯‵□′)╯︵┴─┴）。
@@ -322,6 +322,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/sql/" itemprop="url" rel="index">
+                    <span itemprop="name">sql</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -352,133 +374,28 @@
 <p>查看这张表的hdfs存储小文件，发现有从某个小文件开始，时间戳跟前面小文件的时间戳差一天（黑人问号脸）。因此怀疑就是这部分小文件搞的鬼。</p>
 <p>查看下创建hive表的sql语句，创建的是外部表。</p>
 <p>由于生产数据不能乱删，只能自己写sql来尝试和验证。</p>
+<a id="more"></a>
 <h1 id="2-重现步骤"><a href="#2-重现步骤" class="headerlink" title="2. 重现步骤"></a>2. 重现步骤</h1><ol>
 <li><p>本地创建一个test_file，文件内容：</p>
-<pre><code>old
-</code></pre></li>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">old</div></pre></td></tr></table></figure>
+</li>
 <li><p>在hdfs上创建两个小文件，并往两文件中写些数据。</p>
-<pre><code>dfs -put ${test_file} ${partition_dir}/000000_0;
-dfs -put ${test_file} ${partition_dir}/000001_0;
-
-dfs -ls ${hdfs_location}/${table_name}/log_date=${date};
-    输出：
-        -rw-r--r--   3 yjr yjr          4 2016-11-26 16:38 /user/yjr/yjr/yjr_test/log_date=2016-11-26/000000_0
-        -rw-r--r--   3 yjr yjr          4 2016-11-26 16:38 /user/yjr/yjr/yjr_test/log_date=2016-11-26/000001_0
-
-dfs -cat ${hdfs_location}/${table_name}/log_date=${date}/*;
-    输出：
-        old
-        old
-</code></pre></li>
+ <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">dfs -put $&#123;test_file&#125; $&#123;partition_dir&#125;/000000_0;</div><div class="line">dfs -put $&#123;test_file&#125; $&#123;partition_dir&#125;/000001_0;</div><div class="line"></div><div class="line">dfs -ls $&#123;hdfs_location&#125;/$&#123;table_name&#125;/log_date=$&#123;date&#125;;</div><div class="line">    输出：</div><div class="line">        -rw-r--r--   3 yjr yjr          4 2016-11-26 16:38 /user/yjr/yjr/yjr_test/log_date=2016-11-26/000000_0</div><div class="line">        -rw-r--r--   3 yjr yjr          4 2016-11-26 16:38 /user/yjr/yjr/yjr_test/log_date=2016-11-26/000001_0</div><div class="line"></div><div class="line">dfs -cat $&#123;hdfs_location&#125;/$&#123;table_name&#125;/log_date=$&#123;date&#125;/*;</div><div class="line">    输出：</div><div class="line">        old</div><div class="line">        old</div></pre></td></tr></table></figure>
+</li>
 <li><p>创建外部表。</p>
-<pre><code>drop table if exists ${table_name};
-
-create external table if not exists ${table_name} (
-    user_id string
-) partitioned by (log_date string)
-ROW FORMAT DELIMITED FIELDS TERMINATED BY &apos;\t&apos;
-LOCATION  &apos;${hdfs_location}/${table_name}&apos;;
-</code></pre></li>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">drop</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">exists</span> $&#123;table_name&#125;;</div><div class="line"></div><div class="line"><span class="keyword">create</span> <span class="keyword">external</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">not</span> <span class="keyword">exists</span> $&#123;table_name&#125; (</div><div class="line">    user_id <span class="keyword">string</span></div><div class="line">) partitioned <span class="keyword">by</span> (log_date <span class="keyword">string</span>)</div><div class="line"><span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\t'</span></div><div class="line">LOCATION  <span class="string">'$&#123;hdfs_location&#125;/$&#123;table_name&#125;'</span>;</div></pre></td></tr></table></figure>
+</li>
 <li><p>删除分区，insert overwrite。</p>
-<pre><code>-- 1. 删除分区
-alter table ${table_name} drop if exists partition(log_date=&apos;${date}&apos;);
-
--- 2. 插入数据
-insert overwrite table ${table_name} partition (log_date=&apos;${date}&apos;)
-select &apos;error&apos;;
-
--- 3. 查看hdfs文件
-dfs -ls ${hdfs_location}/${table_name}/log_date=${date};
-    输出：
-        -rwxr-xr-x   3 yjr yjr          6 2016-11-26 16:38 /user/yjr/yjr/yjr_test/log_date=2016-11-26/000000_0
-        -rw-r--r--   3 yjr yjr          4 2016-11-26 16:38 /user/yjr/yjr/yjr_test/log_date=2016-11-26/000001_0
-
-dfs -cat ${hdfs_location}/${table_name}/log_date=${date}/*;
-    输出：
-        error
-        old
-
--- 4. select行数
-select * from ${table_name} where log_date=&apos;${date}&apos;;
-    输出：
-        error   2016-11-26
-        old     2016-11-26
-</code></pre></li>
+ <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">-- 1. 删除分区</div><div class="line">alter table $&#123;table_name&#125; drop if exists partition(log_date='$&#123;date&#125;');</div><div class="line"></div><div class="line">-- 2. 插入数据</div><div class="line">insert overwrite table $&#123;table_name&#125; partition (log_date='$&#123;date&#125;')</div><div class="line">select 'error';</div><div class="line"></div><div class="line">-- 3. 查看hdfs文件</div><div class="line">dfs -ls $&#123;hdfs_location&#125;/$&#123;table_name&#125;/log_date=$&#123;date&#125;;</div><div class="line">    输出：</div><div class="line">        -rwxr-xr-x   3 yjr yjr          6 2016-11-26 16:38 /user/yjr/yjr/yjr_test/log_date=2016-11-26/000000_0</div><div class="line">        -rw-r--r--   3 yjr yjr          4 2016-11-26 16:38 /user/yjr/yjr/yjr_test/log_date=2016-11-26/000001_0</div><div class="line"></div><div class="line">dfs -cat $&#123;hdfs_location&#125;/$&#123;table_name&#125;/log_date=$&#123;date&#125;/*;</div><div class="line">    输出：</div><div class="line">        error</div><div class="line">        old</div><div class="line"></div><div class="line">-- 4. select行数</div><div class="line">select * from $&#123;table_name&#125; where log_date='$&#123;date&#125;';</div><div class="line">    输出：</div><div class="line">        error   2016-11-26</div><div class="line">        old     2016-11-26</div></pre></td></tr></table></figure>
+</li>
 <li><p>不删除分区，insert overwrite。</p>
-<pre><code>-- 1. 插入数据
-insert overwrite table ${table_name} partition (log_date=&apos;${date}&apos;)
-select &apos;right&apos;;
-
--- 2. 查看hdfs文件
-dfs -ls ${hdfs_location}/${table_name}/log_date=${date};
-    输出：
-        -rwxr-xr-x   3 yjr yjr          6 2016-11-26 16:38 /user/yjr/yjr/yjr_test/log_date=2016-11-26/000000_0
-
-dfs -cat ${hdfs_location}/${table_name}/log_date=${date}/*;
-    输出：
-        right
-
--- 3. select行数
-select * from ${table_name} where log_date=&apos;${date}&apos;;
-    输出：
-        right   2016-11-26
-</code></pre></li>
+ <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">-- 1. 插入数据</div><div class="line">insert overwrite table $&#123;table_name&#125; partition (log_date='$&#123;date&#125;')</div><div class="line">select 'right';</div><div class="line"></div><div class="line">-- 2. 查看hdfs文件</div><div class="line">dfs -ls $&#123;hdfs_location&#125;/$&#123;table_name&#125;/log_date=$&#123;date&#125;;</div><div class="line">    输出：</div><div class="line">        -rwxr-xr-x   3 yjr yjr          6 2016-11-26 16:38 /user/yjr/yjr/yjr_test/log_date=2016-11-26/000000_0</div><div class="line"></div><div class="line">dfs -cat $&#123;hdfs_location&#125;/$&#123;table_name&#125;/log_date=$&#123;date&#125;/*;</div><div class="line">    输出：</div><div class="line">        right</div><div class="line"></div><div class="line">-- 3. select行数</div><div class="line">select * from $&#123;table_name&#125; where log_date='$&#123;date&#125;';</div><div class="line">    输出：</div><div class="line">        right   2016-11-26</div></pre></td></tr></table></figure>
+</li>
 <li><p>完整步骤：</p>
-<pre><code>----------------------------- 选择数据库 -----------------------------
-use yjr;
-
------------------------------ 设置变量 -------------------------------
-set hivevar:hdfs_location=/user/yjr/yjr;
-set hivevar:table_name=yjr_test;
-set hivevar:test_file=test_file;
-set hivevar:date=2016-11-26;
-set hivevar:table_dir=${hdfs_location}/${table_name};
-set hivevar:partition_dir=${table_dir}/log_date=${date};
-
------------------------------ 插入数据 -------------------------------
-dfs -put ${test_file} ${partition_dir}/000000_0;
-dfs -put ${test_file} ${partition_dir}/000001_0;
-dfs -ls ${partition_dir};
-dfs -cat ${partition_dir}/*;
-
-------------------------------- 删除表 --------------------------------
-drop table if exists ${table_name};
-
-create external table if not exists ${table_name} (
-    user_id string
-) partitioned by (log_date string)
-ROW FORMAT DELIMITED FIELDS TERMINATED BY &apos;\t&apos;
-LOCATION  &apos;${table_dir}&apos;;
-</code></pre></li>
+ <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line">----------------------------- 选择数据库 -----------------------------</div><div class="line">use yjr;</div><div class="line"></div><div class="line">----------------------------- 设置变量 -------------------------------</div><div class="line">set hivevar:hdfs_location=/user/yjr/yjr;</div><div class="line">set hivevar:table_name=yjr_test;</div><div class="line">set hivevar:test_file=test_file;</div><div class="line">set hivevar:date=2016-11-26;</div><div class="line">set hivevar:table_dir=$&#123;hdfs_location&#125;/$&#123;table_name&#125;;</div><div class="line">set hivevar:partition_dir=$&#123;table_dir&#125;/log_date=$&#123;date&#125;;</div><div class="line"></div><div class="line">----------------------------- 插入数据 -------------------------------</div><div class="line">dfs -put $&#123;test_file&#125; $&#123;partition_dir&#125;/000000_0;</div><div class="line">dfs -put $&#123;test_file&#125; $&#123;partition_dir&#125;/000001_0;</div><div class="line">dfs -ls $&#123;partition_dir&#125;;</div><div class="line">dfs -cat $&#123;partition_dir&#125;/*;</div><div class="line"></div><div class="line">------------------------------- 删除表 --------------------------------</div><div class="line">drop table if exists $&#123;table_name&#125;;</div><div class="line"></div><div class="line">create external table if not exists $&#123;table_name&#125; (</div><div class="line">    user_id string</div><div class="line">) partitioned by (log_date string)</div><div class="line">ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'</div><div class="line">LOCATION  '$&#123;table_dir&#125;';</div><div class="line"></div><div class="line"></div><div class="line">---------------------- 删除分区，insertoverwrite -----------------------</div><div class="line">-- 1. 删除分区</div><div class="line">alter table $&#123;table_name&#125; drop if exists partition(log_date='$&#123;date&#125;');</div><div class="line"></div><div class="line">-- 2. 插入数据</div><div class="line">insert overwrite table $&#123;table_name&#125; partition (log_date='$&#123;date&#125;')</div><div class="line">select 'error';</div><div class="line"></div><div class="line">-- 3. 查看hdfs文件</div><div class="line">dfs -ls $&#123;partition_dir&#125;;</div><div class="line">dfs -cat $&#123;partition_dir&#125;/*;</div><div class="line"></div><div class="line">-- 4. select行数</div><div class="line">select * from $&#123;table_name&#125; where log_date='$&#123;date&#125;';</div><div class="line"></div><div class="line"></div><div class="line">---------------------- 不删除分区，insertoverwrite ---------------------</div><div class="line">-- 1. 插入数据</div><div class="line">insert overwrite table $&#123;table_name&#125; partition (log_date='$&#123;date&#125;')</div><div class="line">select 'right';</div><div class="line"></div><div class="line">-- 2. 查看hdfs文件</div><div class="line">dfs -ls $&#123;partition_dir&#125;;</div><div class="line">dfs -cat $&#123;partition_dir&#125;/*;</div><div class="line"></div><div class="line">-- 3. select行数</div><div class="line">select * from $&#123;table_name&#125; where log_date='$&#123;date&#125;';</div></pre></td></tr></table></figure>
+</li>
 </ol>
-<pre><code>---------------------- 删除分区，insertoverwrite -----------------------
--- 1. 删除分区
-alter table ${table_name} drop if exists partition(log_date=&apos;${date}&apos;);
-
--- 2. 插入数据
-insert overwrite table ${table_name} partition (log_date=&apos;${date}&apos;)
-select &apos;error&apos;;
-
--- 3. 查看hdfs文件
-dfs -ls ${partition_dir};
-dfs -cat ${partition_dir}/*;
-
--- 4. select行数
-select * from ${table_name} where log_date=&apos;${date}&apos;;
-
-
----------------------- 不删除分区，insertoverwrite ---------------------
--- 1. 插入数据
-insert overwrite table ${table_name} partition (log_date=&apos;${date}&apos;)
-select &apos;right&apos;;
-
--- 2. 查看hdfs文件
-dfs -ls ${partition_dir};
-dfs -cat ${partition_dir}/*;
-
--- 3. select行数
-select * from ${table_name} where log_date=&apos;${date}&apos;;
-</code></pre><h1 id="3-原理"><a href="#3-原理" class="headerlink" title="3. 原理"></a>3. 原理</h1><p>hive中分内部表（table, internal table）和外部表（external table）。</p>
+<h1 id="3-原理"><a href="#3-原理" class="headerlink" title="3. 原理"></a>3. 原理</h1><p>hive中分内部表（table, internal table）和外部表（external table）。</p>
 <ol>
 <li><p>内部表：表数据和meta数据均存放在数据库中。当我们drop partition时，会将表数据和meta数据均从hdfs上删除。</p>
 </li>
@@ -519,7 +436,7 @@ select * from ${table_name} where log_date=&apos;${date}&apos;;
       
         <div class="post-tags">
           
-            <a href="/tags/Hive/" rel="tag"># Hive</a>
+            <a href="/tags/hive/" rel="tag"># hive</a>
           
         </div>
       
@@ -617,11 +534,18 @@ select * from ${table_name} where log_date=&apos;${date}&apos;;
           
 
           
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
 
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

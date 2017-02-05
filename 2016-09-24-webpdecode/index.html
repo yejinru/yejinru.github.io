@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Image," />
+  <meta name="keywords" content="webp," />
 
 
 
@@ -84,28 +84,16 @@
 
 
 
-<meta name="description" content="最近做了下webp解码成png、awebp（webp动画）解码为gif的功能，但是网上并没找到很合适的代码。
-对于webp解码成png，应该比较好做，获取rgb，然后用gm对rgb数组进行解码即可。
-对于awebp解码成gif，则需要一帧帧取出，然后再用gm把一帧帧存到gif中。
-在libwebp库的demux.h头文件中，有说明如何取出awebp中的帧，具体代码如下：
-WebPDemuxer*">
+<meta name="description" content="最近做了下webp解码成png、awebp（webp动画）解码为gif的功能，但是网上并没找到很合适的代码。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Webp Decode">
 <meta property="og:url" content="yejinru.github.io/2016-09-24-webpdecode/index.html">
 <meta property="og:site_name" content="yejinru">
-<meta property="og:description" content="最近做了下webp解码成png、awebp（webp动画）解码为gif的功能，但是网上并没找到很合适的代码。
-对于webp解码成png，应该比较好做，获取rgb，然后用gm对rgb数组进行解码即可。
-对于awebp解码成gif，则需要一帧帧取出，然后再用gm把一帧帧存到gif中。
-在libwebp库的demux.h头文件中，有说明如何取出awebp中的帧，具体代码如下：
-WebPDemuxer*">
-<meta property="og:updated_time" content="2017-02-05T05:49:30.000Z">
+<meta property="og:description" content="最近做了下webp解码成png、awebp（webp动画）解码为gif的功能，但是网上并没找到很合适的代码。">
+<meta property="og:updated_time" content="2017-02-05T07:28:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Webp Decode">
-<meta name="twitter:description" content="最近做了下webp解码成png、awebp（webp动画）解码为gif的功能，但是网上并没找到很合适的代码。
-对于webp解码成png，应该比较好做，获取rgb，然后用gm对rgb数组进行解码即可。
-对于awebp解码成gif，则需要一帧帧取出，然后再用gm把一帧帧存到gif中。
-在libwebp库的demux.h头文件中，有说明如何取出awebp中的帧，具体代码如下：
-WebPDemuxer*">
+<meta name="twitter:description" content="最近做了下webp解码成png、awebp（webp动画）解码为gif的功能，但是网上并没找到很合适的代码。">
 
 
 
@@ -322,6 +310,28 @@ WebPDemuxer*">
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/others/" itemprop="url" rel="index">
+                    <span itemprop="name">others</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -348,114 +358,14 @@ WebPDemuxer*">
 
       
         <p>最近做了下webp解码成png、awebp（webp动画）解码为gif的功能，但是网上并没找到很合适的代码。</p>
+<a id="more"></a>
 <p>对于webp解码成png，应该比较好做，获取rgb，然后用gm对rgb数组进行解码即可。</p>
 <p>对于awebp解码成gif，则需要一帧帧取出，然后再用gm把一帧帧存到gif中。</p>
 <p>在libwebp库的demux.h头文件中，有说明如何取出awebp中的帧，具体代码如下：</p>
-<pre><code>WebPDemuxer* demux = WebPDemux(&amp;webp_data);
-uint32_t width = WebPDemuxGetI(demux, WEBP_FF_CANVAS_WIDTH);
-uint32_t height = WebPDemuxGetI(demux, WEBP_FF_CANVAS_HEIGHT);
-// ... (Get information about the features present in the WebP file).
-uint32_t flags = WebPDemuxGetI(demux, WEBP_FF_FORMAT_FLAGS);
-// ... (Iterate over all frames).
-WebPIterator iter;
-if (WebPDemuxGetFrame(demux, 1, &amp;iter)) {
-  do {
-    // ... (Consume &apos;iter&apos;; e.g. Decode &apos;iter.fragment&apos; with WebPDecode(),
-    // ... and get other frame properties like width, height, offsets etc.
-    // ... see &apos;struct WebPIterator&apos; below for more info).
-  } while (WebPDemuxNextFrame(&amp;iter));
-  WebPDemuxReleaseIterator(&amp;iter);
-}
-// ... (Extract metadata).
-WebPChunkIterator chunk_iter;
-if (flags &amp; ICCP_FLAG) WebPDemuxGetChunk(demux, &quot;ICCP&quot;, 1, &amp;chunk_iter);
-// ... (Consume the ICC profile in &apos;chunk_iter.chunk&apos;).
-WebPDemuxReleaseChunkIterator(&amp;chunk_iter);
-if (flags &amp; EXIF_FLAG) WebPDemuxGetChunk(demux, &quot;EXIF&quot;, 1, &amp;chunk_iter);
-// ... (Consume the EXIF metadata in &apos;chunk_iter.chunk&apos;).
-WebPDemuxReleaseChunkIterator(&amp;chunk_iter);
-if (flags &amp; XMP_FLAG) WebPDemuxGetChunk(demux, &quot;XMP &quot;, 1, &amp;chunk_iter);
-// ... (Consume the XMP metadata in &apos;chunk_iter.chunk&apos;).
-WebPDemuxReleaseChunkIterator(&amp;chunk_iter);
-WebPDemuxDelete(demux);
-</code></pre><p>最后，我们用gm来对webp/awebp进行解码：</p>
-<pre><code>#include &lt;webp/decode.h&gt;
-#include &lt;webp/demux.h&gt;
-#include &lt;Magick++.h&gt;
-#include &lt;string&gt;
-#include &lt;sstream&gt;
-#include &lt;iostream&gt;
-#include &lt;fstream&gt;
-#include &lt;list&gt;
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">WebPDemuxer* demux = WebPDemux(&amp;webp_data);</div><div class="line"><span class="keyword">uint32_t</span> width = WebPDemuxGetI(demux, WEBP_FF_CANVAS_WIDTH);</div><div class="line"><span class="keyword">uint32_t</span> height = WebPDemuxGetI(demux, WEBP_FF_CANVAS_HEIGHT);</div><div class="line"><span class="comment">// ... (Get information about the features present in the WebP file).</span></div><div class="line"><span class="keyword">uint32_t</span> flags = WebPDemuxGetI(demux, WEBP_FF_FORMAT_FLAGS);</div><div class="line"><span class="comment">// ... (Iterate over all frames).</span></div><div class="line">WebPIterator iter;</div><div class="line"><span class="keyword">if</span> (WebPDemuxGetFrame(demux, <span class="number">1</span>, &amp;iter)) &#123;</div><div class="line">  <span class="keyword">do</span> &#123;</div><div class="line">    <span class="comment">// ... (Consume 'iter'; e.g. Decode 'iter.fragment' with WebPDecode(),</span></div><div class="line">    <span class="comment">// ... and get other frame properties like width, height, offsets etc.</span></div><div class="line">    <span class="comment">// ... see 'struct WebPIterator' below for more info).</span></div><div class="line">  &#125; <span class="keyword">while</span> (WebPDemuxNextFrame(&amp;iter));</div><div class="line">  WebPDemuxReleaseIterator(&amp;iter);</div><div class="line">&#125;</div><div class="line"><span class="comment">// ... (Extract metadata).</span></div><div class="line">WebPChunkIterator chunk_iter;</div><div class="line"><span class="keyword">if</span> (flags &amp; ICCP_FLAG) WebPDemuxGetChunk(demux, <span class="string">"ICCP"</span>, <span class="number">1</span>, &amp;chunk_iter);</div><div class="line"><span class="comment">// ... (Consume the ICC profile in 'chunk_iter.chunk').</span></div><div class="line">WebPDemuxReleaseChunkIterator(&amp;chunk_iter);</div><div class="line"><span class="keyword">if</span> (flags &amp; EXIF_FLAG) WebPDemuxGetChunk(demux, <span class="string">"EXIF"</span>, <span class="number">1</span>, &amp;chunk_iter);</div><div class="line"><span class="comment">// ... (Consume the EXIF metadata in 'chunk_iter.chunk').</span></div><div class="line">WebPDemuxReleaseChunkIterator(&amp;chunk_iter);</div><div class="line"><span class="keyword">if</span> (flags &amp; XMP_FLAG) WebPDemuxGetChunk(demux, <span class="string">"XMP "</span>, <span class="number">1</span>, &amp;chunk_iter);</div><div class="line"><span class="comment">// ... (Consume the XMP metadata in 'chunk_iter.chunk').</span></div><div class="line">WebPDemuxReleaseChunkIterator(&amp;chunk_iter);</div><div class="line">WebPDemuxDelete(demux);</div></pre></td></tr></table></figure>
+<p>最后，我们用gm来对webp/awebp进行解码：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div></pre></td><td class="code"><pre><div class="line">#include &lt;webp/decode.h&gt;</div><div class="line">#include &lt;webp/demux.h&gt;</div><div class="line">#include &lt;Magick++.h&gt;</div><div class="line">#include &lt;string&gt;</div><div class="line">#include &lt;sstream&gt;</div><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;fstream&gt;</div><div class="line">#include &lt;list&gt;</div><div class="line"></div><div class="line">class Webp &#123;</div><div class="line"></div><div class="line">public:</div><div class="line">  static bool Decode(const std::string &amp;content, const std::string &amp;out_file) &#123;</div><div class="line">    WebPData webp_data;</div><div class="line">    webp_data.bytes = reinterpret_cast&lt;const uint8_t*&gt;(content.c_str());</div><div class="line">    webp_data.size = content.size();</div><div class="line">    </div><div class="line">    WebPDemuxer* demux = WebPDemux(&amp;webp_data);</div><div class="line">    int width = WebPDemuxGetI(demux, WEBP_FF_CANVAS_WIDTH);</div><div class="line">    int height = WebPDemuxGetI(demux, WEBP_FF_CANVAS_HEIGHT);</div><div class="line">    uint32_t flags = WebPDemuxGetI(demux, WEBP_FF_FORMAT_FLAGS);</div><div class="line"></div><div class="line">    WebPIterator iter;</div><div class="line">    int fragment_cnt = 0;</div><div class="line">    std::list&lt;Magick::Image&gt; images;</div><div class="line"></div><div class="line">    if (WebPDemuxGetFrame(demux, 1, &amp;iter)) &#123;</div><div class="line">      do &#123;</div><div class="line">        ++ fragment_cnt;</div><div class="line">        WebPData &amp;fragment = iter.fragment;</div><div class="line">        uint8_t *out_data = NULL;</div><div class="line">        int length = 1;</div><div class="line"></div><div class="line">        // 读取rgb/rgba</div><div class="line">        if (iter.has_alpha) &#123;</div><div class="line">          out_data = WebPDecodeRGBA(fragment.bytes, fragment.size, &amp;width, &amp;height);</div><div class="line">          length = width * height * 4;</div><div class="line">        &#125; else &#123;</div><div class="line">          out_data = WebPDecodeRGB(fragment.bytes, fragment.size, &amp;width, &amp;height);</div><div class="line">          length = width * height * 3;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // 帧与帧之间必须设置延时，并且必须是帧与帧之间设置，否则设置会无效，导致转换后的gif变化很慢</div><div class="line">        if (fragment_cnt &gt; 1) &#123;</div><div class="line">          images.back().animationDelay(iter.duration / 10);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        std::stringstream oss2;</div><div class="line">        oss2 &lt;&lt; width &lt;&lt; "x" &lt;&lt; height;</div><div class="line"></div><div class="line">        images.push_back(Magick::Image());</div><div class="line">        Magick::Image &amp;image = images.back();</div><div class="line">        image.size(oss2.str());</div><div class="line">        image.magick(iter.has_alpha ? "RGBA" : "RGB");</div><div class="line">        Magick::Blob ori_blob(out_data, length);</div><div class="line">        image.read(ori_blob);</div><div class="line">        WebPFree(out_data);</div><div class="line">      &#125; while (WebPDemuxNextFrame(&amp;iter));</div><div class="line">    &#125;</div><div class="line">    if (fragment_cnt == 1) &#123;  // webp</div><div class="line">      images.back().write(out_file.c_str());</div><div class="line">    &#125; else &#123;  // awebp</div><div class="line">      Magick::writeImages(images.begin(), images.end(), out_file.c_str());</div><div class="line">    &#125;</div><div class="line">    WebPDemuxDelete(demux);</div><div class="line">    return true;</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">int main(int argc, char **argv) &#123;</div><div class="line">  Magick::InitializeMagick(NULL); // 对 gm 进行初始化</div><div class="line">  std::ifstream t(argv[1]); // 读取文件</div><div class="line">  std::string img_data((std::istreambuf_iterator&lt;char&gt;(t)), std::istreambuf_iterator&lt;char&gt;());</div><div class="line">  Webp::Decode(img_data, argv[2]);</div><div class="line">  return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
-class Webp {
-
-public:
-  static bool Decode(const std::string &amp;content, const std::string &amp;out_file) {
-    WebPData webp_data;
-    webp_data.bytes = reinterpret_cast&lt;const uint8_t*&gt;(content.c_str());
-    webp_data.size = content.size();
-
-    WebPDemuxer* demux = WebPDemux(&amp;webp_data);
-    int width = WebPDemuxGetI(demux, WEBP_FF_CANVAS_WIDTH);
-    int height = WebPDemuxGetI(demux, WEBP_FF_CANVAS_HEIGHT);
-    uint32_t flags = WebPDemuxGetI(demux, WEBP_FF_FORMAT_FLAGS);
-
-    WebPIterator iter;
-    int fragment_cnt = 0;
-    std::list&lt;Magick::Image&gt; images;
-
-    if (WebPDemuxGetFrame(demux, 1, &amp;iter)) {
-      do {
-        ++ fragment_cnt;
-        WebPData &amp;fragment = iter.fragment;
-        uint8_t *out_data = NULL;
-        int length = 1;
-
-        // 读取rgb/rgba
-        if (iter.has_alpha) {
-          out_data = WebPDecodeRGBA(fragment.bytes, fragment.size, &amp;width, &amp;height);
-          length = width * height * 4;
-        } else {
-          out_data = WebPDecodeRGB(fragment.bytes, fragment.size, &amp;width, &amp;height);
-          length = width * height * 3;
-        }
-
-        // 帧与帧之间必须设置延时，并且必须是帧与帧之间设置，否则设置会无效，导致转换后的gif变化很慢
-        if (fragment_cnt &gt; 1) {
-          images.back().animationDelay(iter.duration / 10);
-        }
-
-        std::stringstream oss2;
-        oss2 &lt;&lt; width &lt;&lt; &quot;x&quot; &lt;&lt; height;
-
-        images.push_back(Magick::Image());
-        Magick::Image &amp;image = images.back();
-        image.size(oss2.str());
-        image.magick(iter.has_alpha ? &quot;RGBA&quot; : &quot;RGB&quot;);
-        Magick::Blob ori_blob(out_data, length);
-        image.read(ori_blob);
-        WebPFree(out_data);
-      } while (WebPDemuxNextFrame(&amp;iter));
-    }
-    if (fragment_cnt == 1) {  // webp
-      images.back().write(out_file.c_str());
-    } else {  // awebp
-      Magick::writeImages(images.begin(), images.end(), out_file.c_str());
-    }
-    WebPDemuxDelete(demux);
-    return true;
-  }
-};
-
-int main(int argc, char **argv) {
-  Magick::InitializeMagick(NULL); // 对 gm 进行初始化
-  std::ifstream t(argv[1]); // 读取文件
-  std::string img_data((std::istreambuf_iterator&lt;char&gt;(t)), std::istreambuf_iterator&lt;char&gt;());
-  Webp::Decode(img_data, argv[2]);
-  return 0;
-}
-</code></pre>
       
     </div>
 
@@ -478,7 +388,7 @@ int main(int argc, char **argv) {
       
         <div class="post-tags">
           
-            <a href="/tags/Image/" rel="tag"># Image</a>
+            <a href="/tags/webp/" rel="tag"># webp</a>
           
         </div>
       
@@ -567,11 +477,18 @@ int main(int argc, char **argv) {
           
 
           
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
 
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

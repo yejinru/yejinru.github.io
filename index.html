@@ -311,6 +311,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/sql/" itemprop="url" rel="index">
+                    <span itemprop="name">sql</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -337,122 +359,14 @@
 
       
         
-          
-            <h1 id="1-增删改查"><a href="#1-增删改查" class="headerlink" title="1. 增删改查"></a>1. 增删改查</h1><h2 id="1-1-增"><a href="#1-1-增" class="headerlink" title="1.1. 增"></a>1.1. 增</h2><ol>
-<li><p>创建数据库</p>
-<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">create database yjr;</div></pre></td></tr></table></figure>
-</code></pre></li>
-<li><p>创建表</p>
-<pre><code>create table if not exists table_test(
-    user_id string comment &apos;用户标记&apos;
-)PARTITIONED BY (log_date string)
-ROW FORMAT DELIMITED FIELDS TERMINATED BY &apos;\t&apos;
-LOCATION  &apos;/user/yjr/table_test&apos;;
-</code></pre></li>
-<li><p>创建外部表：使用外部表可以避免删除表、分区时，删除HDFS原数据</p>
-<pre><code>create external table if not exists table_test(
-    user_id string comment &apos;用户标记&apos;
-)PARTITIONED BY (log_date string)
-ROW FORMAT DELIMITED FIELDS TERMINATED BY &apos;\t&apos;
-LOCATION  &apos;/user/yjr/table_test&apos;;
-</code></pre></li>
-<li><p>增加列</p>
-</li>
-</ol>
-<h2 id="1-2-删"><a href="#1-2-删" class="headerlink" title="1.2. 删"></a>1.2. 删</h2><ol>
-<li><p>删除数据库</p>
-<pre><code>drop database yjr;
-</code></pre></li>
-<li><p>删除表</p>
-<pre><code>drop table table_test;
-</code></pre></li>
-<li><p>删除分区</p>
-<pre><code>alter table table_test drop if exists partition(log_date=&apos;2017-01-19&apos;);
-</code></pre></li>
-</ol>
-<h2 id="1-3-改"><a href="#1-3-改" class="headerlink" title="1.3. 改"></a>1.3. 改</h2><ol>
-<li><p>数据库改名</p>
-</li>
-<li><p>表改名</p>
-</li>
-<li><p>列改名</p>
-</li>
-</ol>
-<h2 id="1-4-查"><a href="#1-4-查" class="headerlink" title="1.4. 查"></a>1.4. 查</h2><ol>
-<li><p>查数据库</p>
-<pre><code>show databases;
-show databases like &apos;yjr*&apos;;
-</code></pre></li>
-<li><p>查表</p>
-<pre><code>show tables;
-show tables like &apos;table_test*&apos;;       
-</code></pre></li>
-<li><p>查分区</p>
-<pre><code>show partitions table_test;
-</code></pre></li>
-<li><p>查表详细信息</p>
-<pre><code>show create table table_test;
-</code></pre></li>
-</ol>
-<h1 id="2-join"><a href="#2-join" class="headerlink" title="2. join"></a>2. join</h1><ol>
-<li><p>join</p>
-</li>
-<li><p>left outer join</p>
-</li>
-<li><p>right outer join</p>
-</li>
-<li><p>full outer join</p>
-</li>
-</ol>
-<h1 id="3-UDF"><a href="#3-UDF" class="headerlink" title="3. UDF"></a>3. UDF</h1><ol>
-<li><p>Python</p>
-<pre><code>--transform必须独占一次select操作
-set hivevar:udf_file=cate_merge.py;
-set hivevar:udf_path=/home/yejinru/${udf_file};
-add file ${udf_path};
-select
-    transform(user_id) using &apos;python ${udf_file}&apos; as (user_id string, user_type BIGINT)
-from table_test;
-</code></pre></li>
-<li><p>Java</p>
-<pre><code>add jar /home/yejinru/brickhouse-0.7.1-SNAPSHOT.jar;
-create temporary function collect AS &apos;brickhouse.udf.collect.CollectUDAF&apos;;
-
-select
-    user_id,
-    collect(score) as score_vector
-from table_test;
-</code></pre></li>
-</ol>
-<h1 id="4-读写文件"><a href="#4-读写文件" class="headerlink" title="4. 读写文件"></a>4. 读写文件</h1><pre><code>1. 结果输出到文件
-
-    insert overwrite local directory &apos;/home/yejinru/output.xsl&apos;
-    row format delimited 
-    fields terminated by &apos;\t&apos;
-    lines terminated by &apos;\n&apos;
-    select
-        concat_ws(&apos;=&apos;, &apos;uid&apos;, t.user_id)
-    from (
-        select
-            user_id
-        from user
-        where log_date = &apos;2017-01-19&apos;
-    ) t;
-
-2. 从本地文件转载到hive表
-
-    load data local inpath &apos;/home/yejinru/input.log&apos;
-    into table table_test partition(log_date=&apos;2017-01-19&apos;);
-</code></pre><h1 id="5-其它"><a href="#5-其它" class="headerlink" title="5. 其它"></a>5. 其它</h1><ol>
-<li><p>文件启动</p>
-<pre><code>hive -f a.sql
-</code></pre></li>
-<li><p>指定数据库、外部传递宏、文件启动</p>
-<pre><code>hive --hiveconf mapreduce.job.name=gcm_token_sql --hiveconf mapreduce.map.memory.mb=4096 --hiveconf mapreduce.reduce.memory.mb=4096 --hiveconf mapreduce.job.queuename=yejinru --hiveconf mapreduce.map.java.opts=-Xmx8G&apos; &apos;-XX:+UseConcMarkSweepGC --hiveconf hive.auto.convert.join=false -d log_date=2017-01-19 --database yjr -v -f /home/yejinru/a.sql
-</code></pre></li>
-</ol>
-
-          
+          <p>本文记录了hive的几种常用语法。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017-01-19-hive-usage/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -542,6 +456,28 @@ from table_test;
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/sql/" itemprop="url" rel="index">
+                    <span itemprop="name">sql</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -568,158 +504,18 @@ from table_test;
 
       
         
-          
-            <h1 id="1-背景"><a href="#1-背景" class="headerlink" title="1. 背景"></a>1. 背景</h1><p>前几天生产任务突然慢了很多，查看下hdfs，发现从某天开始数据量比前一天几乎增加了一倍（这是要搞一个大新闻(╯‵□′)╯︵┴─┴）。</p>
+          <h1 id="1-背景"><a href="#1-背景" class="headerlink" title="1. 背景"></a>1. 背景</h1><p>前几天生产任务突然慢了很多，查看下hdfs，发现从某天开始数据量比前一天几乎增加了一倍（这是要搞一个大新闻(╯‵□′)╯︵┴─┴）。</p>
 <p>查数据时发现，某张hive表几乎有一半数据的key是重复的。</p>
 <p>查看这张表的hdfs存储小文件，发现有从某个小文件开始，时间戳跟前面小文件的时间戳差一天（黑人问号脸）。因此怀疑就是这部分小文件搞的鬼。</p>
 <p>查看下创建hive表的sql语句，创建的是外部表。</p>
 <p>由于生产数据不能乱删，只能自己写sql来尝试和验证。</p>
-<h1 id="2-重现步骤"><a href="#2-重现步骤" class="headerlink" title="2. 重现步骤"></a>2. 重现步骤</h1><ol>
-<li><p>本地创建一个test_file，文件内容：</p>
-<pre><code>old
-</code></pre></li>
-<li><p>在hdfs上创建两个小文件，并往两文件中写些数据。</p>
-<pre><code>dfs -put ${test_file} ${partition_dir}/000000_0;
-dfs -put ${test_file} ${partition_dir}/000001_0;
-
-dfs -ls ${hdfs_location}/${table_name}/log_date=${date};
-    输出：
-        -rw-r--r--   3 yjr yjr          4 2016-11-26 16:38 /user/yjr/yjr/yjr_test/log_date=2016-11-26/000000_0
-        -rw-r--r--   3 yjr yjr          4 2016-11-26 16:38 /user/yjr/yjr/yjr_test/log_date=2016-11-26/000001_0
-
-dfs -cat ${hdfs_location}/${table_name}/log_date=${date}/*;
-    输出：
-        old
-        old
-</code></pre></li>
-<li><p>创建外部表。</p>
-<pre><code>drop table if exists ${table_name};
-
-create external table if not exists ${table_name} (
-    user_id string
-) partitioned by (log_date string)
-ROW FORMAT DELIMITED FIELDS TERMINATED BY &apos;\t&apos;
-LOCATION  &apos;${hdfs_location}/${table_name}&apos;;
-</code></pre></li>
-<li><p>删除分区，insert overwrite。</p>
-<pre><code>-- 1. 删除分区
-alter table ${table_name} drop if exists partition(log_date=&apos;${date}&apos;);
-
--- 2. 插入数据
-insert overwrite table ${table_name} partition (log_date=&apos;${date}&apos;)
-select &apos;error&apos;;
-
--- 3. 查看hdfs文件
-dfs -ls ${hdfs_location}/${table_name}/log_date=${date};
-    输出：
-        -rwxr-xr-x   3 yjr yjr          6 2016-11-26 16:38 /user/yjr/yjr/yjr_test/log_date=2016-11-26/000000_0
-        -rw-r--r--   3 yjr yjr          4 2016-11-26 16:38 /user/yjr/yjr/yjr_test/log_date=2016-11-26/000001_0
-
-dfs -cat ${hdfs_location}/${table_name}/log_date=${date}/*;
-    输出：
-        error
-        old
-
--- 4. select行数
-select * from ${table_name} where log_date=&apos;${date}&apos;;
-    输出：
-        error   2016-11-26
-        old     2016-11-26
-</code></pre></li>
-<li><p>不删除分区，insert overwrite。</p>
-<pre><code>-- 1. 插入数据
-insert overwrite table ${table_name} partition (log_date=&apos;${date}&apos;)
-select &apos;right&apos;;
-
--- 2. 查看hdfs文件
-dfs -ls ${hdfs_location}/${table_name}/log_date=${date};
-    输出：
-        -rwxr-xr-x   3 yjr yjr          6 2016-11-26 16:38 /user/yjr/yjr/yjr_test/log_date=2016-11-26/000000_0
-
-dfs -cat ${hdfs_location}/${table_name}/log_date=${date}/*;
-    输出：
-        right
-
--- 3. select行数
-select * from ${table_name} where log_date=&apos;${date}&apos;;
-    输出：
-        right   2016-11-26
-</code></pre></li>
-<li><p>完整步骤：</p>
-<pre><code>----------------------------- 选择数据库 -----------------------------
-use yjr;
-
------------------------------ 设置变量 -------------------------------
-set hivevar:hdfs_location=/user/yjr/yjr;
-set hivevar:table_name=yjr_test;
-set hivevar:test_file=test_file;
-set hivevar:date=2016-11-26;
-set hivevar:table_dir=${hdfs_location}/${table_name};
-set hivevar:partition_dir=${table_dir}/log_date=${date};
-
------------------------------ 插入数据 -------------------------------
-dfs -put ${test_file} ${partition_dir}/000000_0;
-dfs -put ${test_file} ${partition_dir}/000001_0;
-dfs -ls ${partition_dir};
-dfs -cat ${partition_dir}/*;
-
-------------------------------- 删除表 --------------------------------
-drop table if exists ${table_name};
-
-create external table if not exists ${table_name} (
-    user_id string
-) partitioned by (log_date string)
-ROW FORMAT DELIMITED FIELDS TERMINATED BY &apos;\t&apos;
-LOCATION  &apos;${table_dir}&apos;;
-</code></pre></li>
-</ol>
-<pre><code>---------------------- 删除分区，insertoverwrite -----------------------
--- 1. 删除分区
-alter table ${table_name} drop if exists partition(log_date=&apos;${date}&apos;);
-
--- 2. 插入数据
-insert overwrite table ${table_name} partition (log_date=&apos;${date}&apos;)
-select &apos;error&apos;;
-
--- 3. 查看hdfs文件
-dfs -ls ${partition_dir};
-dfs -cat ${partition_dir}/*;
-
--- 4. select行数
-select * from ${table_name} where log_date=&apos;${date}&apos;;
-
-
----------------------- 不删除分区，insertoverwrite ---------------------
--- 1. 插入数据
-insert overwrite table ${table_name} partition (log_date=&apos;${date}&apos;)
-select &apos;right&apos;;
-
--- 2. 查看hdfs文件
-dfs -ls ${partition_dir};
-dfs -cat ${partition_dir}/*;
-
--- 3. select行数
-select * from ${table_name} where log_date=&apos;${date}&apos;;
-</code></pre><h1 id="3-原理"><a href="#3-原理" class="headerlink" title="3. 原理"></a>3. 原理</h1><p>hive中分内部表（table, internal table）和外部表（external table）。</p>
-<ol>
-<li><p>内部表：表数据和meta数据均存放在数据库中。当我们drop partition时，会将表数据和meta数据均从hdfs上删除。</p>
-</li>
-<li><p>外部表：meta数据存放在数据库中，但是表数据却存放在数据库之外别的位置。所以当我们drop partition时，只会把meta数据从hdfs上删除，表数据依然保留在hdfs上，只是meta数据删除后索引不到了而已，是逻辑上的删除而不是物理意义上的删除。</p>
-</li>
-</ol>
-<p>所以，当我们在insert overwrite前先drop partition，可能会出现问题。</p>
-<h1 id="4-结论"><a href="#4-结论" class="headerlink" title="4. 结论"></a>4. 结论</h1><p>使用hive外部表时：</p>
-<ol>
-<li><p>如果想删除分区，千万不要使用drop partition。</p>
-</li>
-<li><p>在insert overwrite前也千万不要drop partition。</p>
-</li>
-</ol>
-<h1 id="5-参考"><a href="#5-参考" class="headerlink" title="5. 参考"></a>5. 参考</h1><ol>
-<li><a href="http://www.ericlin.me/hive-insert-overwrite-does-not-remove-existing-data" target="_blank" rel="external">Hive “INSERT OVERWRITE” Does Not Remove Existing Data</a></li>
-</ol>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016-11-26-hive-drop-partition/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -835,54 +631,14 @@ select * from ${table_name} where log_date=&apos;${date}&apos;;
 
       
         
-          
-            <h1 id="1-第一课"><a href="#1-第一课" class="headerlink" title="1. 第一课"></a>1. 第一课</h1><ol>
-<li><p>监督学习：输入数据有标准答案。</p>
-<ol>
-<li><p>回归问题：定量输出，连续变量预测。</p>
-<p> 例子：房子大小和房子价格的关系。</p>
-</li>
-<li><p>分类问题：定性输出，离散变量输出。</p>
-<p> 例子：癌症细胞大小决定是否患了癌症。</p>
-</li>
-</ol>
-</li>
-<li><p>无监督学习：输入数据没有标准答案。</p>
-<p> 例子：鸡尾酒宴会中，区分人声和背景声音。</p>
-</li>
-<li><p>强化学习：奖励或惩罚学习。</p>
-<p> 例子：当狗做对了给狗奖励，当狗做错了给狗惩罚，最终狗会越来越听话。</p>
-</li>
-<li><p>Notations:</p>
-<p> $$ x^{(i)} $$ : input variables，输入变量</p>
-<p> $$ y^{(i)} $$ : output(target) variables，输入变量</p>
-<p> $$ (x^{(i)}, y^{(i)}) $$ : training example，训练样本</p>
-<p> a list of m training examples { $$ (x^{(i)}, y^{(i)}) $$ ; i = 1, . . . ,m} is called a training set，训练集</p>
-<p> 回归：y的取值是连续的</p>
-<p> 分类：y的取值是一个很小的集合</p>
-<p> h: hypothesis, 假设函数</p>
-<p> <img src="/img/coursera/cs229/hypothesis.jpg" alt="Alt text" title="hypothesis"></p>
-</li>
-</ol>
-<h1 id="2-第二课"><a href="#2-第二课" class="headerlink" title="2. 第二课"></a>2. 第二课</h1><h2 id="2-1-Linear-Regression-线性回归"><a href="#2-1-Linear-Regression-线性回归" class="headerlink" title="2.1. Linear Regression: 线性回归"></a>2.1. Linear Regression: 线性回归</h2><ol>
-<li><p>我们引入两个feature来预测房价</p>
-<p> Living area (feet^2)|#bedrooms| Price (1000$s)<br> ——————–|———|—————<br> 2104                | 3       | 400<br> 1600                | 3       | 330<br> 2400                | 3       | 369<br> 1416                | 2       | 232<br> 3000                | 4       | 540<br> .                   | .       | .</p>
-<p> $$ x_1^{(i)} $$ : 第i个房子的Living area</p>
-<p> $$ x_2^{(i)} $$ : 第i个房子的bedrooms个数</p>
-<p> 使用线性函数来预测房价如下：</p>
-<p> $$ h_\Theta(x) = θ_0 + θ_1x_1 + θ_2x_2 $$</p>
-<p> 定义 $$ x_0 = 1 $$，我们可以简化公式如下：</p>
-<p> $$ h<em>\Theta(x) = \sum</em>{i=0}^n {\Theta_ix_i} = \Theta^Tx $$</p>
-<p> 代价函数(cost function)定义如下：</p>
-<p> $$ J(\Theta) = \frac{1}{2} \sum<em>{i=1}^m {(h</em>\Theta(x^{(i)}) - y^{(i)}) ^ 2} $$</p>
-<p> 通过调整 $$ \theta $$，最小化 $$ J(\Theta) $$，求得最优解。</p>
-</li>
-<li><p>LMS解法</p>
-<p> 求解$$ J(\Theta) $$最小值，我们可以使用梯度下降法来求解。</p>
-</li>
-</ol>
-
-          
+          <p>本文记录了cs229课程的笔记。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017-01-08-cs229/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -972,6 +728,28 @@ select * from ${table_name} where log_date=&apos;${date}&apos;;
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/others/" itemprop="url" rel="index">
+                    <span itemprop="name">others</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -998,95 +776,14 @@ select * from ${table_name} where log_date=&apos;${date}&apos;;
 
       
         
-          
-            <p>本文按照正常流程来写</p>
-<ol>
-<li>创建项目：</li>
-</ol>
-<ol>
-<li><p>下载代码：</p>
-<ol>
-<li><p>下载代码：git clone ${xxx.git}</p>
-</li>
-<li><p>下载指定分支的代码：git clone -b ${branch_name} ${xxx.git}</p>
-</li>
-<li><p>根据commit_id下载文件：git checkout -b ${branch_name} ${commit_id}</p>
-</li>
-</ol>
-</li>
-<li><p>分支管理：</p>
-<ol>
-<li><p>查看分支：git branch</p>
-</li>
-<li><p>创建分支：git branch <name></name></p>
-</li>
-<li><p>切换分支：git checkout ${branch_name}</p>
-</li>
-<li><p>创建+切换分支：git checkout -b ${branch_name}</p>
-</li>
-<li><p>删除本地分支：git branch -D ${branch_name}</p>
-</li>
-<li><p>删除远程分支：git push origin :${branch_name}</p>
-</li>
-<li><p>合并某分支到当前分支：git merge ${branch_name}</p>
-</li>
-<li><p>根据commit_id进行merge：git merge ${commit_id}</p>
-</li>
-</ol>
-</li>
-<li><p>开发</p>
-<ol>
-<li><p>查看当前文件和文件夹状态：git status</p>
-</li>
-<li><p>查看diff：git diff</p>
-</li>
-<li><p>拉取代码：git pull origin ${banch_name}</p>
-</li>
-</ol>
-</li>
-<li><p>上传代码：</p>
-<ol>
-<li><p>添加文件：git add ${file_name}</p>
-</li>
-<li><p>添加文件夹：git add ${folder_name}</p>
-</li>
-<li><p>提交：git commit -m “${your_commit_note}”</p>
-</li>
-<li><p>推到远程目录：git push origin ${branch_name}</p>
-</li>
-</ol>
-</li>
-<li><p>tag：</p>
-<ol>
-<li><p>打tag：git tag -a ${tag_name} -m “${tag_message}”</p>
-</li>
-<li><p>推tag到远程仓库：git push origin ${tag_name}</p>
-</li>
-<li><p>删除tag：git push origin –delete tag ${tag_name}</p>
-</li>
-</ol>
-</li>
-<li><p>下载相关依赖的子模块：</p>
-<p>   git submodule init</p>
-<p>   git submodule update</p>
-</li>
-<li><p>其它：</p>
-<ol>
-<li><p>查看当前分支最近的提交记录：git log -2</p>
-</li>
-<li><p>查看最近一次的提交信息：git log -n 1 -p</p>
-</li>
-<li><p>查看指定的commit的内容：git show commit_id</p>
-</li>
-<li><p>添加全局密码：</p>
-<p> eval $(ssh-agent)</p>
-<p> ssh-add</p>
-</li>
-</ol>
-</li>
-</ol>
-
-          
+          <p>本文记录了git常用命令。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016-10-18-git/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1176,6 +873,28 @@ select * from ${table_name} where log_date=&apos;${date}&apos;;
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/others/" itemprop="url" rel="index">
+                    <span itemprop="name">others</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -1202,10 +921,14 @@ select * from ${table_name} where log_date=&apos;${date}&apos;;
 
       
         
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div></pre></td><td class="code"><pre><div class="line">&quot; 代码折叠</div><div class="line">&quot;set foldmethod=indent</div><div class="line"></div><div class="line">set encoding=utf-8</div><div class="line">set termencoding=utf-8</div><div class="line">set fileencodings=utf-8,chinese,latin-1</div><div class="line">if has(&quot;win32&quot;)</div><div class="line"> set fileencoding=chinese</div><div class="line">else</div><div class="line"> set fileencoding=utf-8</div><div class="line">endif</div><div class="line">&quot; language messages zh_CN.utf-8</div><div class="line">&quot; 设定不与以前版本兼</div><div class="line">set nocompatible</div><div class="line"></div><div class="line">&quot; 显示行号</div><div class="line">set nu</div><div class="line">&quot; 侦测文件类型</div><div class="line">filetype on</div><div class="line">&quot; 设置当文件被改动时自动载入</div><div class="line">set autoread</div><div class="line">&quot; 记录历史的行数</div><div class="line">set history=10000</div><div class="line">&quot; 显示语法高亮</div><div class="line">syntax enable</div><div class="line">syntax on</div><div class="line">&quot; 在处理未保存或只读文件的时候，弹出确认</div><div class="line">set confirm</div><div class="line">&quot; 与windows共享剪贴板</div><div class="line">set clipboard+=unnamed</div><div class="line">&quot; 载入文件类型插件</div><div class="line">filetype plugin on</div><div class="line">&quot; 为特定文件类型载入相关缩进文件</div><div class="line">filetype indent on</div><div class="line">&quot; 保存全局变量</div><div class="line">set viminfo+=!</div><div class="line">&quot; 带有如下符号的单词不要被换行分割</div><div class="line">set iskeyword+=_,$,@,%,#,-</div><div class="line">&quot; 设置鼠标一直可用</div><div class="line">&quot; set mouse=a</div><div class="line">&quot; 高亮当前行</div><div class="line">set cursorline</div><div class="line">&quot; 命令行高度</div><div class="line">set cmdheight=1</div><div class="line">&quot; 启动的时候不显示那个援助索马里儿童的提示</div><div class="line">set shortmess=atI</div><div class="line">&quot; 不让vim发出讨厌的滴滴声</div><div class="line">set noerrorbells</div><div class="line">&quot; 在被分割的窗口间显示空白，便于阅读</div><div class="line">set fillchars=vert:\ ,stl:\ ,stlnc:\</div><div class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</div><div class="line">&quot; 文件设置</div><div class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</div><div class="line">&quot; 不要备份文件（覆盖文件时不备份）</div><div class="line">set nobackup</div><div class="line">&quot; 不要生成swap文件，当buffer被丢弃的时候隐藏它</div><div class="line">setlocal noswapfile</div><div class="line">set bufhidden=hide</div><div class="line">&quot; 字符间插入的像素行数目</div><div class="line">set linespace=0</div><div class="line">&quot; 增强模式中的命令行自动完成操作</div><div class="line">set wildmenu</div><div class="line"></div><div class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</div><div class="line">&quot; 搜索和匹配</div><div class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</div><div class="line">&quot; 高亮显示匹配的括号</div><div class="line">set showmatch</div><div class="line">&quot; 高亮显示被找到的句子（phrases）</div><div class="line">set hlsearch</div><div class="line">&quot; 在搜索时，输入的词句的逐字符高亮（类似firefox的搜索），即输入搜索内容时就显示搜索结果</div><div class="line">set incsearch</div><div class="line">&quot; 搜索时忽略大小写</div><div class="line">set ignorecase</div><div class="line"></div><div class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</div><div class="line">&quot; 文本格式和排版</div><div class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</div><div class="line">&quot; 自动格式化</div><div class="line">set formatoptions=tcrqn</div><div class="line">&quot; 继承前一行的缩进方式，特别适用于多行注释</div><div class="line">set autoindent</div><div class="line">&quot; 为C程序提供自动缩进</div><div class="line">set smartindent</div><div class="line">&quot; 使用C样式的缩进</div><div class="line">set cindent</div><div class="line">&quot; 统一缩进为4</div><div class="line">set softtabstop=4</div><div class="line">&quot; 设定 &lt;&lt; 和 &gt;&gt; 命令移动时的宽度为 4</div><div class="line">set shiftwidth=4</div><div class="line">&quot; 制表符为4</div><div class="line">set tabstop=4</div><div class="line">&quot; 用空格代替制表符</div><div class="line">set expandtab</div><div class="line"></div><div class="line">&quot; 去掉讨厌的有关vi一致性模式，避免以前版本的一些bug和局限 </div><div class="line">set nocompatible</div><div class="line">&quot; indent: 如果用了:set indent,:set ai 等自动缩进，想用退格键将字段缩进的删掉，必须设置这个选项。否则不响应。</div><div class="line">&quot; eol:如果插入模式下在行开头，想通过退格键合并两行，需要设置eol。</div><div class="line">&quot; start：要想删除此次插入前的输入，需设置这个。</div><div class="line">set backspace=indent,eol,start</div><div class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</div><div class="line">&quot;自动实例括号</div><div class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</div><div class="line">inoremap ( ()&lt;ESC&gt;i</div><div class="line">inoremap ) &lt;c-r&gt;=ClosePair(&apos;)&apos;)&lt;CR&gt;</div><div class="line">inoremap &#123; &#123;&#125;&lt;ESC&gt;i</div><div class="line">inoremap &#125; &lt;c-r&gt;=ClosePair(&apos;&#125;&apos;)&lt;CR&gt;</div><div class="line">inoremap [ []&lt;ESC&gt;i</div><div class="line">inoremap ] &lt;c-r&gt;=ClosePair(&apos;]&apos;)&lt;CR&gt;</div><div class="line">inoremap &apos; &apos;&apos;&lt;ESC&gt;i</div><div class="line">inoremap &quot; &quot;&quot;&lt;ESC&gt;i</div><div class="line">function ClosePair(char)</div><div class="line"> if getline(&apos;.&apos;)[col(&apos;.&apos;) - 1] == a:char</div><div class="line">  return &quot;\&lt;Right&gt;&quot;</div><div class="line"> else</div><div class="line">  return a:char</div><div class="line"> endif</div><div class="line">endf</div><div class="line"></div><div class="line">&quot; 再次打开文件时停留在上一次打开的位置</div><div class="line">if has(&quot;autocmd&quot;)</div><div class="line">  au BufReadPost * if line(&quot;&apos;\&quot;&quot;) &gt; 1 &amp;&amp; line(&quot;&apos;\&quot;&quot;) &lt;= line(&quot;$&quot;) | exe &quot;normal! g&apos;\&quot;&quot; | endif</div><div class="line">endif</div></pre></td></tr></table></figure>
-
-          
+          <p>我的vimrc配置。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016-09-29-vimrc/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1295,6 +1018,28 @@ select * from ${table_name} where log_date=&apos;${date}&apos;;
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mac/" itemprop="url" rel="index">
+                    <span itemprop="name">mac</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -1321,174 +1066,14 @@ select * from ${table_name} where log_date=&apos;${date}&apos;;
 
       
         
-          
-            <p>I worte this article for my gf :)</p>
-<h1 id="1-触摸板"><a href="#1-触摸板" class="headerlink" title="1. 触摸板"></a>1. 触摸板</h1><ol>
-<li><p>双手指上下滑动：上下拉动页面</p>
-</li>
-<li><p>双手指左右滑动：前进后退（浏览器上）</p>
-</li>
-<li><p>三手指上下滑动：显示所有打开的程序和界面</p>
-</li>
-<li><p>三手指左右滑动：切换到另外一个最大化的界面</p>
-</li>
-<li><p>control + 点击：相当于windows右键</p>
-</li>
-</ol>
-<h1 id="2-快捷键"><a href="#2-快捷键" class="headerlink" title="2. 快捷键"></a>2. 快捷键</h1><h2 id="2-1-浏览器-chrome"><a href="#2-1-浏览器-chrome" class="headerlink" title="2.1. 浏览器(chrome)"></a>2.1. 浏览器(chrome)</h2><ol>
-<li><p>刷新：command + r</p>
-</li>
-<li><p>查找：command + f</p>
-</li>
-<li><p>恢复上一次关闭的tab：command + shift + t</p>
-</li>
-</ol>
-<h2 id="2-2-通用（部分源于个人设置，建议看看【系统偏好设置-键盘-快捷键】"><a href="#2-2-通用（部分源于个人设置，建议看看【系统偏好设置-键盘-快捷键】" class="headerlink" title="2.2. 通用（部分源于个人设置，建议看看【系统偏好设置-键盘-快捷键】"></a>2.2. 通用（部分源于个人设置，建议看看【系统偏好设置-键盘-快捷键】</h2><ol>
-<li><p>关闭当前窗口：command + w</p>
-</li>
-<li><p>关闭整个程序：command + q</p>
-</li>
-<li><p>程序之间切换：command + tab</p>
-</li>
-<li><p>保存：command + s</p>
-</li>
-<li><p>撤销：command + z</p>
-</li>
-<li><p>拷贝：command + c</p>
-</li>
-<li><p>剪切：command + x</p>
-</li>
-<li><p>全选：command + a</p>
-</li>
-<li><p>删除文件或文件夹：command + delete</p>
-</li>
-<li><p>屏幕截屏（个人设置）：command + shift + a</p>
-</li>
-<li><p>屏幕截屏并保存到文件（个人设置）：command + shift + s</p>
-</li>
-<li><p>切换输入法（个人设置）：command + p</p>
-</li>
-<li><p>delete：</p>
-<ul>
-<li><p>delete：向前删除</p>
-</li>
-<li><p>fn + delete：先后删除</p>
-</li>
-<li><p>…</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="3-命令行操作"><a href="#3-命令行操作" class="headerlink" title="3. 命令行操作"></a>3. 命令行操作</h1><ol>
-<li><p>ls: 列出当前目录的文件及文件夹</p>
-<ul>
-<li><p>ls：列出当前目录的文件及文件夹</p>
-</li>
-<li><p>ll：列出当前目录的文件和文件夹的详细信息</p>
-</li>
-<li><p>ls folder：列出folder的信息</p>
-</li>
-<li><p>ls file：列出file的信息</p>
-</li>
-<li><p>…</p>
-</li>
-</ul>
-</li>
-<li><p>pwd：打印当前所在目录</p>
-</li>
-<li><p>cd：进入文件夹</p>
-<ul>
-<li><p>cd：进入到home目录</p>
-</li>
-<li><p>cd ~：进入到home目录</p>
-</li>
-<li><p>cd -：进入到上一次所在的目录</p>
-</li>
-<li><p>cd folder：进入到folder目录</p>
-</li>
-<li><p>cd folder/subfolder：进入到folder目录下的subfolder子目录</p>
-</li>
-<li><p>…</p>
-</li>
-</ul>
-</li>
-<li><p>history：列出所有历史操作命令</p>
-</li>
-<li><p>control + r: 查看历史操作命令</p>
-</li>
-<li><p>tab：可列出上一次相似命令</p>
-</li>
-<li><p>cat file：把file的信息在屏幕中打印出来</p>
-</li>
-<li><p>grep：根据过滤条件从文本信息中筛选出文本信息</p>
-<ul>
-<li><p>grep “condition” file：从file中查找带有condition字符串的行</p>
-</li>
-<li><p>grep -r “condition” folder：从folder文件夹下的所有文件查找带有condition字符串的行，condition支持正则表达式</p>
-</li>
-<li><p>grep -E “condition1|condition2” file：从file中查找符合condition1或condition2的行，condition1和condition2支持正则表达式</p>
-</li>
-<li><p>…</p>
-</li>
-</ul>
-</li>
-<li><p>touch file：创建空文件file</p>
-</li>
-<li><p>mkdir：</p>
-<ul>
-<li><p>mkdir folder：创建文件夹folder</p>
-</li>
-<li><p>mkdir folder/subfolder -p：当folder不存在时，支持递归创建folder和folder的子文件夹subfolder；当folder存在时，创建subfolder</p>
-</li>
-<li><p>…</p>
-</li>
-</ul>
-</li>
-<li><p>rm（慎用，一旦删除，文件或文件夹不可恢复）：</p>
-<ul>
-<li><p>rm file：删除文件file</p>
-</li>
-<li><p>rm file*：删除所有前缀为file的文件</p>
-</li>
-<li><p>rm folder -rf：递归删除文件夹folder及文件夹folder下所有子文件夹和所有子文件</p>
-</li>
-<li><p>…</p>
-</li>
-</ul>
-</li>
-<li><p>clear：清空屏幕</p>
-</li>
-<li><p>control + a：在命令行模式下，返回到命令行首</p>
-</li>
-<li><p>control + e：在命令行模式下，返回到命令行末</p>
-</li>
-<li><p>control + c：停止当前操作</p>
-</li>
-<li><p>vim：自行上网学习</p>
-</li>
-<li><p>tree：</p>
-<ul>
-<li><p>tree -l folder：列出folder下所有目录、子目录、文件</p>
-</li>
-<li><p>tree -L 1 folder：只列出folder目录下第1层子目录和文件</p>
-</li>
-<li><p>…</p>
-</li>
-</ul>
-</li>
-<li><p>kill：</p>
-<ul>
-<li><p>kill -9 MATLAB：强制杀掉含有MATLAB的进程</p>
-</li>
-<li><p>…</p>
-</li>
-</ul>
-</li>
-<li><p>etc…</p>
-</li>
-</ol>
-
-          
+          <p>I worte this article for my gf :)</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016-09-24-mac-usage/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1578,6 +1163,28 @@ select * from ${table_name} where log_date=&apos;${date}&apos;;
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/others/" itemprop="url" rel="index">
+                    <span itemprop="name">others</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -1604,117 +1211,14 @@ select * from ${table_name} where log_date=&apos;${date}&apos;;
 
       
         
-          
-            <p>最近做了下webp解码成png、awebp（webp动画）解码为gif的功能，但是网上并没找到很合适的代码。</p>
-<p>对于webp解码成png，应该比较好做，获取rgb，然后用gm对rgb数组进行解码即可。</p>
-<p>对于awebp解码成gif，则需要一帧帧取出，然后再用gm把一帧帧存到gif中。</p>
-<p>在libwebp库的demux.h头文件中，有说明如何取出awebp中的帧，具体代码如下：</p>
-<pre><code>WebPDemuxer* demux = WebPDemux(&amp;webp_data);
-uint32_t width = WebPDemuxGetI(demux, WEBP_FF_CANVAS_WIDTH);
-uint32_t height = WebPDemuxGetI(demux, WEBP_FF_CANVAS_HEIGHT);
-// ... (Get information about the features present in the WebP file).
-uint32_t flags = WebPDemuxGetI(demux, WEBP_FF_FORMAT_FLAGS);
-// ... (Iterate over all frames).
-WebPIterator iter;
-if (WebPDemuxGetFrame(demux, 1, &amp;iter)) {
-  do {
-    // ... (Consume &apos;iter&apos;; e.g. Decode &apos;iter.fragment&apos; with WebPDecode(),
-    // ... and get other frame properties like width, height, offsets etc.
-    // ... see &apos;struct WebPIterator&apos; below for more info).
-  } while (WebPDemuxNextFrame(&amp;iter));
-  WebPDemuxReleaseIterator(&amp;iter);
-}
-// ... (Extract metadata).
-WebPChunkIterator chunk_iter;
-if (flags &amp; ICCP_FLAG) WebPDemuxGetChunk(demux, &quot;ICCP&quot;, 1, &amp;chunk_iter);
-// ... (Consume the ICC profile in &apos;chunk_iter.chunk&apos;).
-WebPDemuxReleaseChunkIterator(&amp;chunk_iter);
-if (flags &amp; EXIF_FLAG) WebPDemuxGetChunk(demux, &quot;EXIF&quot;, 1, &amp;chunk_iter);
-// ... (Consume the EXIF metadata in &apos;chunk_iter.chunk&apos;).
-WebPDemuxReleaseChunkIterator(&amp;chunk_iter);
-if (flags &amp; XMP_FLAG) WebPDemuxGetChunk(demux, &quot;XMP &quot;, 1, &amp;chunk_iter);
-// ... (Consume the XMP metadata in &apos;chunk_iter.chunk&apos;).
-WebPDemuxReleaseChunkIterator(&amp;chunk_iter);
-WebPDemuxDelete(demux);
-</code></pre><p>最后，我们用gm来对webp/awebp进行解码：</p>
-<pre><code>#include &lt;webp/decode.h&gt;
-#include &lt;webp/demux.h&gt;
-#include &lt;Magick++.h&gt;
-#include &lt;string&gt;
-#include &lt;sstream&gt;
-#include &lt;iostream&gt;
-#include &lt;fstream&gt;
-#include &lt;list&gt;
-
-class Webp {
-
-public:
-  static bool Decode(const std::string &amp;content, const std::string &amp;out_file) {
-    WebPData webp_data;
-    webp_data.bytes = reinterpret_cast&lt;const uint8_t*&gt;(content.c_str());
-    webp_data.size = content.size();
-
-    WebPDemuxer* demux = WebPDemux(&amp;webp_data);
-    int width = WebPDemuxGetI(demux, WEBP_FF_CANVAS_WIDTH);
-    int height = WebPDemuxGetI(demux, WEBP_FF_CANVAS_HEIGHT);
-    uint32_t flags = WebPDemuxGetI(demux, WEBP_FF_FORMAT_FLAGS);
-
-    WebPIterator iter;
-    int fragment_cnt = 0;
-    std::list&lt;Magick::Image&gt; images;
-
-    if (WebPDemuxGetFrame(demux, 1, &amp;iter)) {
-      do {
-        ++ fragment_cnt;
-        WebPData &amp;fragment = iter.fragment;
-        uint8_t *out_data = NULL;
-        int length = 1;
-
-        // 读取rgb/rgba
-        if (iter.has_alpha) {
-          out_data = WebPDecodeRGBA(fragment.bytes, fragment.size, &amp;width, &amp;height);
-          length = width * height * 4;
-        } else {
-          out_data = WebPDecodeRGB(fragment.bytes, fragment.size, &amp;width, &amp;height);
-          length = width * height * 3;
-        }
-
-        // 帧与帧之间必须设置延时，并且必须是帧与帧之间设置，否则设置会无效，导致转换后的gif变化很慢
-        if (fragment_cnt &gt; 1) {
-          images.back().animationDelay(iter.duration / 10);
-        }
-
-        std::stringstream oss2;
-        oss2 &lt;&lt; width &lt;&lt; &quot;x&quot; &lt;&lt; height;
-
-        images.push_back(Magick::Image());
-        Magick::Image &amp;image = images.back();
-        image.size(oss2.str());
-        image.magick(iter.has_alpha ? &quot;RGBA&quot; : &quot;RGB&quot;);
-        Magick::Blob ori_blob(out_data, length);
-        image.read(ori_blob);
-        WebPFree(out_data);
-      } while (WebPDemuxNextFrame(&amp;iter));
-    }
-    if (fragment_cnt == 1) {  // webp
-      images.back().write(out_file.c_str());
-    } else {  // awebp
-      Magick::writeImages(images.begin(), images.end(), out_file.c_str());
-    }
-    WebPDemuxDelete(demux);
-    return true;
-  }
-};
-
-int main(int argc, char **argv) {
-  Magick::InitializeMagick(NULL); // 对 gm 进行初始化
-  std::ifstream t(argv[1]); // 读取文件
-  std::string img_data((std::istreambuf_iterator&lt;char&gt;(t)), std::istreambuf_iterator&lt;char&gt;());
-  Webp::Decode(img_data, argv[2]);
-  return 0;
-}
-</code></pre>
-          
+          <p>最近做了下webp解码成png、awebp（webp动画）解码为gif的功能，但是网上并没找到很合适的代码。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016-09-24-webpdecode/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1804,6 +1308,28 @@ int main(int argc, char **argv) {
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -1830,20 +1356,14 @@ int main(int argc, char **argv) {
 
       
         
-          
-            <p>上周工作时，需要用到python的httplib库，写一个简单的http client。</p>
-<p>大体的代码段如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> httplib</div><div class="line">http_connection = httplib.HTTPConnection(<span class="string">"127.0.0.1"</span>, <span class="number">12378</span>)</div><div class="line">http_connection.request(<span class="string">"GET"</span>, <span class="string">"/"</span>)</div><div class="line">rsp = http_connection.getresponse()</div><div class="line">rsp_body = rsp.read()</div><div class="line">rsp.close()</div><div class="line">http_connection.close()</div></pre></td></tr></table></figure>
-<p>打印耗时，大约需要41ms。由于是对单机server进行http请求，理论上耗时应该在1ms左右。</p>
-<p>在程序内部进行打点计时输出（具体耗时已不可考，大致列了下时间）：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> httplib</div><div class="line">http_connection = httplib.HTTPConnection(<span class="string">"127.0.0.1"</span>, <span class="number">12378</span>)</div><div class="line"><span class="comment"># 0.0 ms</span></div><div class="line">http_connection.request(<span class="string">"GET"</span>, <span class="string">"/"</span>)</div><div class="line"><span class="comment"># 0.1 ms</span></div><div class="line">rsp = http_connection.getresponse()</div><div class="line"><span class="comment"># 40.5 ms</span></div><div class="line">rsp_body = rsp.read()</div><div class="line"><span class="comment"># 40.6 ms</span></div><div class="line">rsp.close()</div><div class="line"><span class="comment"># 40.6 ms</span></div><div class="line">http_connection.close()</div><div class="line"><span class="comment"># 40.6 ms</span></div></pre></td></tr></table></figure>
-<p>查了很多资料，最后发现是<a href="http://baike.baidu.com/link?url=DHKBJsgU1PgVRYyLgyZ2HmSneCPXsi69iDzdm6PuW6LLErBJZRrQuvZfwlonnGfuL9ZOFcTBbp7Nc1MkiPXb-K" target="_blank" rel="external">Nagle算法</a>引起的。</p>
-<p>在Linux系统中，默认打开Nagle算法，因此我们需要对其进行关闭。</p>
-<p>对于httplib库，可以采用以下方式来解决该问题：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> httplib</div><div class="line"></div><div class="line">realsocket = socket.socket</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">socketwrap</span><span class="params">(family=socket.AF_INET, typee=socket.SOCK_STREAM, proto=<span class="number">0</span>)</span>:</span></div><div class="line">    sockobj = realsocket(family, typee, proto)</div><div class="line">    sockobj.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, <span class="number">1</span>)</div><div class="line">    <span class="keyword">return</span> sockobj</div><div class="line">socket.socket = socketwrap</div><div class="line"></div><div class="line">http_connection = httplib.HTTPConnection(<span class="string">"127.0.0.1"</span>, <span class="number">12378</span>)</div><div class="line">http_connection.request(<span class="string">"GET"</span>, <span class="string">"/"</span>)</div><div class="line">rsp = http_connection.getresponse()</div><div class="line">rsp_body = rsp.read()</div><div class="line">rsp.close()</div><div class="line">http_connection.close()</div></pre></td></tr></table></figure>
-<p>参考：<a href="http://www.cmlenz.net/archives/2008/03/python-httplib-performance-problems" target="_blank" rel="external">python-httplib-performance-problems</a></p>
-
-          
+          <p>上周工作时，需要用到python的httplib库，写一个简单的http client。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016-04-18-httplib-tcp-nodelay/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -2040,11 +1560,18 @@ int main(int argc, char **argv) {
           
 
           
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
 
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
