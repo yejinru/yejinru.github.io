@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion" lang="zh-Hans">
+<html class="theme-next mist use-motion" lang="en">
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="git," />
+  <meta name="keywords" content="git & svn," />
 
 
 
@@ -84,16 +84,16 @@
 
 
 
-<meta name="description" content="本文记录了git常用命令。">
+<meta name="description" content="本文记录了git和svn的常用命令。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git">
 <meta property="og:url" content="yejinru.github.io/others/2016-10-18-git/index.html">
 <meta property="og:site_name" content="yejinru">
-<meta property="og:description" content="本文记录了git常用命令。">
-<meta property="og:updated_time" content="2017-02-05T08:56:36.000Z">
+<meta property="og:description" content="本文记录了git和svn的常用命令。">
+<meta property="og:updated_time" content="2017-04-02T02:58:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git">
-<meta name="twitter:description" content="本文记录了git常用命令。">
+<meta name="twitter:description" content="本文记录了git和svn的常用命令。">
 
 
 
@@ -107,7 +107,7 @@
     motion: true,
     duoshuo: {
       userId: '0',
-      author: '博主'
+      author: 'Author'
     },
     algolia: {
       applicationID: '',
@@ -130,7 +130,7 @@
   <title> Git | yejinru </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
 
   
 
@@ -197,7 +197,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            首页
+            Home
           </a>
         </li>
       
@@ -207,7 +207,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            分类
+            Categories
           </a>
         </li>
       
@@ -217,7 +217,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            归档
+            Archives
           </a>
         </li>
       
@@ -227,7 +227,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            标签
+            Tags
           </a>
         </li>
       
@@ -237,7 +237,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            关于
+            About
           </a>
         </li>
       
@@ -307,7 +307,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-10-05T00:00:00+08:00">
                 2016-10-05
@@ -328,7 +328,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">分类于</span>
+                <span class="post-meta-item-text">In</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -351,7 +351,7 @@
                   <i class="fa fa-comment-o"></i>
                 </span>
                 <a href="/others/2016-10-18-git/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="others/2016-10-18-git/" itemprop="commentCount"></span>
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="others/2016-10-18-git/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -377,9 +377,9 @@
       
 
       
-        <p>本文记录了git常用命令。</p>
+        <p>本文记录了git和svn的常用命令。</p>
 <a id="more"></a>
-<ol>
+<h1 id="1-git"><a href="#1-git" class="headerlink" title="1. git"></a>1. git</h1><ol>
 <li>创建项目：</li>
 </ol>
 <ol>
@@ -464,6 +464,20 @@
 </ol>
 </li>
 </ol>
+<h1 id="2-svn"><a href="#2-svn" class="headerlink" title="2. svn"></a>2. svn</h1><ol>
+<li><p>svn co ${src_url}</p>
+</li>
+<li><p>svn add ${file_to_commit}</p>
+</li>
+<li><p>创建分支：svn copy ${src_url} ${dst_url} -m “your_commit_note”</p>
+</li>
+<li><p>合并分支：svn merge ${branch_url}</p>
+</li>
+<li><p>查看分支信息：<code>svn log -v --stop-on-copy</code></p>
+</li>
+<li><p>切换分支：svn switch ${branch_url}</p>
+</li>
+</ol>
 
       
     </div>
@@ -487,7 +501,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/git/" rel="tag"># git</a>
+            <a href="/tags/git-svn/" rel="tag"># git & svn</a>
           
         </div>
       
@@ -534,8 +548,11 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="others/2016-10-18-git/"
-           data-title="Git" data-url="yejinru.github.io/others/2016-10-18-git/">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
       </div>
     
   </div>
@@ -559,8 +576,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -574,7 +600,7 @@
             <div class="site-state-item site-state-posts">
               <a href="/archives">
                 <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">日志</span>
+                <span class="site-state-item-name">posts</span>
               </a>
             </div>
           
@@ -583,7 +609,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">4</span>
-                <span class="site-state-item-name">分类</span>
+                <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
@@ -592,7 +618,7 @@
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">8</span>
-                <span class="site-state-item-name">标签</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -665,6 +691,10 @@
             <ul class="links-of-blogroll-list">
               
                 <li class="links-of-blogroll-item">
+                  <a href="http://www.mofeiyu.cn/" title="mofeiyu" target="_blank">mofeiyu</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
                   <a href="http://www.ay27.com/" title="ay27" target="_blank">ay27</a>
                 </li>
               
@@ -677,6 +707,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-git"><span class="nav-text">1. git</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-svn"><span class="nav-text">2. svn</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
@@ -701,11 +747,11 @@
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  主题 -
+  Theme -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
@@ -790,32 +836,38 @@
 
   
 
-  
-    
-  
 
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"yejinru"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.id = 'duoshuo-script';
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
 
   
-    
-    
-    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
-    <script src="/js/src/hook-duoshuo.js"></script>
+
+    <script type="text/javascript">
+      var disqus_shortname = 'yejinru';
+      var disqus_identifier = 'others/2016-10-18-git/';
+
+      var disqus_title = "Git";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
   
-
-
-
 
 
 

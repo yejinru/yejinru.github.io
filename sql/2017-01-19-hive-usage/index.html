@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion" lang="zh-Hans">
+<html class="theme-next mist use-motion" lang="en">
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -84,16 +84,16 @@
 
 
 
-<meta name="description" content="本文记录了hive的几种常用语法。">
+<meta name="description" content="Hive SQL记录。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hive SQL">
 <meta property="og:url" content="yejinru.github.io/sql/2017-01-19-hive-usage/index.html">
 <meta property="og:site_name" content="yejinru">
-<meta property="og:description" content="本文记录了hive的几种常用语法。">
-<meta property="og:updated_time" content="2017-02-05T07:20:56.000Z">
+<meta property="og:description" content="Hive SQL记录。">
+<meta property="og:updated_time" content="2017-04-02T02:58:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hive SQL">
-<meta name="twitter:description" content="本文记录了hive的几种常用语法。">
+<meta name="twitter:description" content="Hive SQL记录。">
 
 
 
@@ -107,7 +107,7 @@
     motion: true,
     duoshuo: {
       userId: '0',
-      author: '博主'
+      author: 'Author'
     },
     algolia: {
       applicationID: '',
@@ -130,7 +130,7 @@
   <title> Hive SQL | yejinru </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
 
   
 
@@ -197,7 +197,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            首页
+            Home
           </a>
         </li>
       
@@ -207,7 +207,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            分类
+            Categories
           </a>
         </li>
       
@@ -217,7 +217,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            归档
+            Archives
           </a>
         </li>
       
@@ -227,7 +227,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            标签
+            Tags
           </a>
         </li>
       
@@ -237,7 +237,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            关于
+            About
           </a>
         </li>
       
@@ -307,7 +307,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-19T12:00:00+08:00">
                 2017-01-19
@@ -328,7 +328,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">分类于</span>
+                <span class="post-meta-item-text">In</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -351,7 +351,7 @@
                   <i class="fa fa-comment-o"></i>
                 </span>
                 <a href="/sql/2017-01-19-hive-usage/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="sql/2017-01-19-hive-usage/" itemprop="commentCount"></span>
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="sql/2017-01-19-hive-usage/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -377,19 +377,23 @@
       
 
       
-        <p>本文记录了hive的几种常用语法。</p>
+        <p>Hive SQL记录。</p>
 <a id="more"></a>
-<h1 id="1-增删改查"><a href="#1-增删改查" class="headerlink" title="1. 增删改查"></a>1. 增删改查</h1><h2 id="1-1-增"><a href="#1-1-增" class="headerlink" title="1.1. 增"></a>1.1. 增</h2><ol>
+<h1 id="1-增删改查-CRUD-Create-Read-Update-and-Delete"><a href="#1-增删改查-CRUD-Create-Read-Update-and-Delete" class="headerlink" title="1. 增删改查(CRUD: Create, Read, Update and Delete)"></a>1. 增删改查(CRUD: Create, Read, Update and Delete)</h1><h2 id="1-1-增"><a href="#1-1-增" class="headerlink" title="1.1. 增"></a>1.1. 增</h2><ol>
 <li><p>创建数据库</p>
  <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">database</span> yjr;</div></pre></td></tr></table></figure>
 </li>
 <li><p>创建表</p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">not</span> <span class="keyword">exists</span> table_test(</div><div class="line">    user_id <span class="keyword">string</span> <span class="keyword">comment</span> <span class="string">'用户标记'</span></div><div class="line">)PARTITIONED <span class="keyword">BY</span> (log_date <span class="keyword">string</span>)</div><div class="line"><span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\t'</span></div><div class="line">LOCATION  <span class="string">'/user/yjr/table_test'</span>;</div></pre></td></tr></table></figure>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- 直接创建，通过指定LOCATION，可以指定该表的HDFS存储位置</span></div><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">not</span> <span class="keyword">exists</span> table_test(</div><div class="line">    user_id <span class="keyword">string</span> <span class="keyword">comment</span> <span class="string">'用户标记'</span></div><div class="line">)PARTITIONED <span class="keyword">BY</span> (log_date <span class="keyword">string</span>)</div><div class="line"><span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\t'</span></div><div class="line">LOCATION  <span class="string">'/user/yjr/table_test'</span>;</div><div class="line"></div><div class="line"><span class="comment">-- 创建相似表</span></div><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> table_fake <span class="keyword">like</span> table_test;</div></pre></td></tr></table></figure>
 </li>
-<li><p>创建外部表：使用外部表可以避免删除表、分区时，删除HDFS原数据</p>
+<li><p>创建外部表：删除外部表时，HDFS文件并不会被删除</p>
  <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">external</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">not</span> <span class="keyword">exists</span> table_test(</div><div class="line">    user_id <span class="keyword">string</span> <span class="keyword">comment</span> <span class="string">'用户标记'</span></div><div class="line">)PARTITIONED <span class="keyword">BY</span> (log_date <span class="keyword">string</span>)</div><div class="line"><span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\t'</span></div><div class="line">LOCATION  <span class="string">'/user/yjr/table_test'</span>;</div></pre></td></tr></table></figure>
 </li>
 <li><p>增加列</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- 在所有存在的列后面，但是在分区列之前添加一列</span></div><div class="line"><span class="keyword">alter</span> <span class="keyword">table</span> table_test <span class="keyword">add</span> <span class="keyword">columns</span> (col_name <span class="keyword">string</span>);</div><div class="line"><span class="comment">-- 此外，必须使用以下方式为所有分区添加这列，否则有可能加完一列后，数据是有的，但是select不出来</span></div><div class="line"><span class="keyword">alter</span> <span class="keyword">table</span> table_test <span class="keyword">partition</span> (log_date) <span class="keyword">add</span> <span class="keyword">columns</span> (col_name <span class="keyword">string</span>);</div></pre></td></tr></table></figure>
+</li>
+<li><p>增加分区</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">alter</span> <span class="keyword">table</span> table_test <span class="keyword">add</span> <span class="keyword">partition</span>(log_date=<span class="string">'2017-01-19'</span>);</div></pre></td></tr></table></figure>
 </li>
 </ol>
 <h2 id="1-2-删"><a href="#1-2-删" class="headerlink" title="1.2. 删"></a>1.2. 删</h2><ol>
@@ -409,6 +413,7 @@
 <li><p>表改名</p>
 </li>
 <li><p>列改名</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">alter</span> <span class="keyword">table</span> table_test <span class="keyword">change</span> pre_name cur_name <span class="built_in">bigint</span>;</div></pre></td></tr></table></figure>
 </li>
 </ol>
 <h2 id="1-4-查"><a href="#1-4-查" class="headerlink" title="1.4. 查"></a>1.4. 查</h2><ol>
@@ -422,10 +427,12 @@
  <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">show</span> <span class="keyword">partitions</span> table_test;</div></pre></td></tr></table></figure>
 </li>
 <li><p>查表详细信息</p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">show</span> <span class="keyword">create</span> <span class="keyword">table</span> table_test;</div></pre></td></tr></table></figure>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- 查看表schema</span></div><div class="line">desc table_test;</div><div class="line"></div><div class="line"><span class="comment">-- 查看建表时的详细信息</span></div><div class="line"><span class="keyword">show</span> <span class="keyword">create</span> <span class="keyword">table</span> table_test;</div></pre></td></tr></table></figure>
 </li>
-</ol>
-<h1 id="2-join"><a href="#2-join" class="headerlink" title="2. join"></a>2. join</h1><ol>
+<li><p>select</p>
+</li>
+<li><p>join</p>
+<ol>
 <li><p>join</p>
 </li>
 <li><p>left outer join</p>
@@ -434,8 +441,12 @@
 </li>
 <li><p>full outer join</p>
 </li>
+<li><p>mapjoin</p>
+</li>
 </ol>
-<h1 id="3-UDF"><a href="#3-UDF" class="headerlink" title="3. UDF"></a>3. UDF</h1><ol>
+</li>
+</ol>
+<h1 id="4-UDF"><a href="#4-UDF" class="headerlink" title="4. UDF"></a>4. UDF</h1><ol>
 <li><p>Python UDF</p>
  <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">--transform必须独占一次select操作</div><div class="line">set hivevar:udf_file=cate_merge.py;</div><div class="line">set hivevar:udf_path=/home/yejinru/$&#123;udf_file&#125;;</div><div class="line">add file $&#123;udf_path&#125;;</div><div class="line">select</div><div class="line">    transform(user_id)</div><div class="line">        using 'python $&#123;udf_file&#125;'</div><div class="line">        as (user_id string, user_type BIGINT)</div><div class="line">from table_test;</div></pre></td></tr></table></figure>
 </li>
@@ -443,7 +454,7 @@
  <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">add jar /home/yejinru/brickhouse-0.7.1-SNAPSHOT.jar;</div><div class="line"><span class="keyword">create</span> <span class="keyword">temporary</span> <span class="keyword">function</span> <span class="keyword">collect</span> <span class="keyword">AS</span> <span class="string">'brickhouse.udf.collect.CollectUDAF'</span>;</div><div class="line"></div><div class="line"><span class="keyword">select</span></div><div class="line">    user_id,</div><div class="line">    <span class="keyword">collect</span>(score) <span class="keyword">as</span> score_vector</div><div class="line"><span class="keyword">from</span> table_test;</div></pre></td></tr></table></figure>
 </li>
 </ol>
-<h1 id="4-读写文件"><a href="#4-读写文件" class="headerlink" title="4. 读写文件"></a>4. 读写文件</h1><ol>
+<h1 id="5-Read-Write-file"><a href="#5-Read-Write-file" class="headerlink" title="5. Read/Write file"></a>5. Read/Write file</h1><ol>
 <li><p>结果输出到文件</p>
  <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">insert</span> overwrite <span class="keyword">local</span> <span class="keyword">directory</span> <span class="string">'/home/yejinru/output.xsl'</span></div><div class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> </div><div class="line"><span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">'\t'</span></div><div class="line"><span class="keyword">lines</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">'\n'</span></div><div class="line"><span class="keyword">select</span></div><div class="line">    <span class="keyword">concat_ws</span>(<span class="string">'='</span>, <span class="string">'uid'</span>, t.user_id)</div><div class="line"><span class="keyword">from</span> (</div><div class="line">    <span class="keyword">select</span></div><div class="line">        user_id</div><div class="line">    <span class="keyword">from</span> <span class="keyword">user</span></div><div class="line">    <span class="keyword">where</span> log_date = <span class="string">'2017-01-19'</span></div><div class="line">) t;</div></pre></td></tr></table></figure>
 </li>
@@ -451,12 +462,15 @@
  <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">'/home/yejinru/input.log'</span></div><div class="line"><span class="keyword">into</span> <span class="keyword">table</span> table_test <span class="keyword">partition</span>(log_date=<span class="string">'2017-01-19'</span>);</div></pre></td></tr></table></figure>
 </li>
 </ol>
-<h1 id="5-其它"><a href="#5-其它" class="headerlink" title="5. 其它"></a>5. 其它</h1><ol>
+<h1 id="6-Others"><a href="#6-Others" class="headerlink" title="6. Others"></a>6. Others</h1><ol>
 <li><p>文件启动</p>
  <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hive -f a.sql</div></pre></td></tr></table></figure>
 </li>
 <li><p>指定数据库、外部传递宏、文件启动</p>
  <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hive <span class="comment">--hiveconf mapreduce.job.name=gcm_token_sql --hiveconf mapreduce.map.memory.mb=4096 --hiveconf mapreduce.reduce.memory.mb=4096 --hiveconf mapreduce.job.queuename=yejinru --hiveconf mapreduce.map.java.opts=-Xmx8G' '-XX:+UseConcMarkSweepGC --hiveconf hive.auto.convert.join=false -d log_date=2017-01-19 --database yjr -v -f /home/yejinru/a.sql</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>impala</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">impala-shell -i $IMPALA_HOST -V -f a.sql</div></pre></td></tr></table></figure>
 </li>
 </ol>
 
@@ -501,8 +515,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/ml/2017-02-05-cs229/" rel="prev" title="斯坦福CS229">
-                斯坦福CS229 <i class="fa fa-chevron-right"></i>
+              <a href="/others/2017-04-02 spark install/" rel="prev" title="Spark安装笔记">
+                Spark安装笔记 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -529,8 +543,11 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="sql/2017-01-19-hive-usage/"
-           data-title="Hive SQL" data-url="yejinru.github.io/sql/2017-01-19-hive-usage/">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
       </div>
     
   </div>
@@ -556,10 +573,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
+            Overview
           </li>
         </ul>
       
@@ -578,7 +595,7 @@
             <div class="site-state-item site-state-posts">
               <a href="/archives">
                 <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">日志</span>
+                <span class="site-state-item-name">posts</span>
               </a>
             </div>
           
@@ -587,7 +604,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">4</span>
-                <span class="site-state-item-name">分类</span>
+                <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
@@ -596,7 +613,7 @@
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">8</span>
-                <span class="site-state-item-name">标签</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -669,6 +686,10 @@
             <ul class="links-of-blogroll-list">
               
                 <li class="links-of-blogroll-item">
+                  <a href="http://www.mofeiyu.cn/" title="mofeiyu" target="_blank">mofeiyu</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
                   <a href="http://www.ay27.com/" title="ay27" target="_blank">ay27</a>
                 </li>
               
@@ -691,7 +712,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-增删改查"><span class="nav-number">1.</span> <span class="nav-text">1. 增删改查</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-增"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 增</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-删"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 删</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-改"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-查"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. 查</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-join"><span class="nav-number">2.</span> <span class="nav-text">2. join</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-UDF"><span class="nav-number">3.</span> <span class="nav-text">3. UDF</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-读写文件"><span class="nav-number">4.</span> <span class="nav-text">4. 读写文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-其它"><span class="nav-number">5.</span> <span class="nav-text">5. 其它</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-增删改查-CRUD-Create-Read-Update-and-Delete"><span class="nav-text">1. 增删改查(CRUD: Create, Read, Update and Delete)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-增"><span class="nav-text">1.1. 增</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-删"><span class="nav-text">1.2. 删</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-改"><span class="nav-text">1.3. 改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-查"><span class="nav-text">1.4. 查</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-UDF"><span class="nav-text">4. UDF</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-Read-Write-file"><span class="nav-text">5. Read/Write file</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-Others"><span class="nav-text">6. Others</span></a></li></ol></div>
             
 
           </div>
@@ -721,11 +742,11 @@
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  主题 -
+  Theme -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
@@ -810,32 +831,38 @@
 
   
 
-  
-    
-  
 
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"yejinru"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.id = 'duoshuo-script';
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
 
   
-    
-    
-    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
-    <script src="/js/src/hook-duoshuo.js"></script>
+
+    <script type="text/javascript">
+      var disqus_shortname = 'yejinru';
+      var disqus_identifier = 'sql/2017-01-19-hive-usage/';
+
+      var disqus_title = "Hive SQL";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
   
-
-
-
 
 
 
