@@ -90,7 +90,7 @@
 <meta property="og:url" content="yejinru.github.io/sql/2017-01-19-hive-usage/index.html">
 <meta property="og:site_name" content="yejinru">
 <meta property="og:description" content="Hive SQL记录。">
-<meta property="og:updated_time" content="2017-04-02T02:58:45.000Z">
+<meta property="og:updated_time" content="2017-04-30T07:21:43.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hive SQL">
 <meta name="twitter:description" content="Hive SQL记录。">
@@ -448,7 +448,7 @@
 </ol>
 <h1 id="4-UDF"><a href="#4-UDF" class="headerlink" title="4. UDF"></a>4. UDF</h1><ol>
 <li><p>Python UDF</p>
- <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">--transform必须独占一次select操作</div><div class="line">set hivevar:udf_file=cate_merge.py;</div><div class="line">set hivevar:udf_path=/home/yejinru/$&#123;udf_file&#125;;</div><div class="line">add file $&#123;udf_path&#125;;</div><div class="line">select</div><div class="line">    transform(user_id)</div><div class="line">        using 'python $&#123;udf_file&#125;'</div><div class="line">        as (user_id string, user_type BIGINT)</div><div class="line">from table_test;</div></pre></td></tr></table></figure>
+ <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">--transform必须独占一次select操作</div><div class="line">set hivevar:udf_file=udf.py;</div><div class="line">set hivevar:udf_path=/home/yejinru/$&#123;udf_file&#125;;</div><div class="line">add file $&#123;udf_path&#125;;</div><div class="line">select</div><div class="line">    transform(user_id)</div><div class="line">        using 'python $&#123;udf_file&#125;'</div><div class="line">        as (user_id string, user_type bigint)</div><div class="line">from table_test;</div></pre></td></tr></table></figure>
 </li>
 <li><p>Java UDF</p>
  <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">add jar /home/yejinru/brickhouse-0.7.1-SNAPSHOT.jar;</div><div class="line"><span class="keyword">create</span> <span class="keyword">temporary</span> <span class="keyword">function</span> <span class="keyword">collect</span> <span class="keyword">AS</span> <span class="string">'brickhouse.udf.collect.CollectUDAF'</span>;</div><div class="line"></div><div class="line"><span class="keyword">select</span></div><div class="line">    user_id,</div><div class="line">    <span class="keyword">collect</span>(score) <span class="keyword">as</span> score_vector</div><div class="line"><span class="keyword">from</span> table_test;</div></pre></td></tr></table></figure>
@@ -462,7 +462,12 @@
  <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">'/home/yejinru/input.log'</span></div><div class="line"><span class="keyword">into</span> <span class="keyword">table</span> table_test <span class="keyword">partition</span>(log_date=<span class="string">'2017-01-19'</span>);</div></pre></td></tr></table></figure>
 </li>
 </ol>
-<h1 id="6-Others"><a href="#6-Others" class="headerlink" title="6. Others"></a>6. Others</h1><ol>
+<h1 id="6-常用操作"><a href="#6-常用操作" class="headerlink" title="6. 常用操作"></a>6. 常用操作</h1><ol>
+<li><p>字符串包含</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> table_test <span class="keyword">where</span> array_contains(<span class="keyword">split</span>(list_ids,<span class="string">','</span>), <span class="string">'cde'</span>);</div><div class="line"></div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> table_name <span class="keyword">where</span> list_ids <span class="keyword">like</span> <span class="string">'%cde%'</span>;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="7-Others"><a href="#7-Others" class="headerlink" title="7. Others"></a>7. Others</h1><ol>
 <li><p>文件启动</p>
  <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hive -f a.sql</div></pre></td></tr></table></figure>
 </li>
@@ -515,8 +520,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/others/2017-04-02 spark install/" rel="prev" title="Spark安装笔记">
-                Spark安装笔记 <i class="fa fa-chevron-right"></i>
+              <a href="/ml/2017-03-17-ml-notes/" rel="prev" title="机器学习资料整理(持续更新)">
+                机器学习资料整理(持续更新) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -594,7 +599,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -603,7 +608,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -612,7 +617,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -712,7 +717,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-增删改查-CRUD-Create-Read-Update-and-Delete"><span class="nav-text">1. 增删改查(CRUD: Create, Read, Update and Delete)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-增"><span class="nav-text">1.1. 增</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-删"><span class="nav-text">1.2. 删</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-改"><span class="nav-text">1.3. 改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-查"><span class="nav-text">1.4. 查</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-UDF"><span class="nav-text">4. UDF</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-Read-Write-file"><span class="nav-text">5. Read/Write file</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-Others"><span class="nav-text">6. Others</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-增删改查-CRUD-Create-Read-Update-and-Delete"><span class="nav-text">1. 增删改查(CRUD: Create, Read, Update and Delete)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-增"><span class="nav-text">1.1. 增</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-删"><span class="nav-text">1.2. 删</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-改"><span class="nav-text">1.3. 改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-查"><span class="nav-text">1.4. 查</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-UDF"><span class="nav-text">4. UDF</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-Read-Write-file"><span class="nav-text">5. Read/Write file</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-常用操作"><span class="nav-text">6. 常用操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-Others"><span class="nav-text">7. Others</span></a></li></ol></div>
             
 
           </div>
