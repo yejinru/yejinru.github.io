@@ -90,7 +90,7 @@
 <meta property="og:url" content="yejinru.github.io/ml/2017-03-17-ml-notes/index.html">
 <meta property="og:site_name" content="yejinru">
 <meta property="og:description" content="本文记录了机器学习的相关资料，仅用于自己学习。">
-<meta property="og:updated_time" content="2017-04-30T08:06:59.000Z">
+<meta property="og:updated_time" content="2017-05-14T14:57:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机器学习资料整理(持续更新)">
 <meta name="twitter:description" content="本文记录了机器学习的相关资料，仅用于自己学习。">
@@ -383,6 +383,7 @@
 <li><a href="http://open.163.com/movie/2008/1/A/R/M6SGF6VB4_M6SGHMFAR.html" target="_blank" rel="external">css229</a></li>
 <li><a href="http://study.163.com/course/introduction.htm?courseId=1003223001#/courseDetail" target="_blank" rel="external">cs231n</a></li>
 <li><a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">coursera ng machine learning</a></li>
+<li><a href="http://www.xuetangx.com/courses/course-v1:TsinghuaX+80240372X+sp/courseware/a6766694400c4280abb5f48cf16f5b41/" target="_blank" rel="external">数据挖掘: 理论与算法</a></li>
 </ol>
 <h1 id="2-书"><a href="#2-书" class="headerlink" title="2. 书"></a>2. 书</h1><ol>
 <li><a href="https://hit-scir.gitbooks.io/neural-networks-and-deep-learning-zh_cn/content/" target="_blank" rel="external">Neural Networks and Deep Learning</a>, <a href="http://neuralnetworksanddeeplearning.com/chap1.html" target="_blank" rel="external">英文原版</a>: 适合深度学习入门。</li>
@@ -390,13 +391,9 @@
 <li>周志华《机器学习》</li>
 </ol>
 <h1 id="3-资料"><a href="#3-资料" class="headerlink" title="3. 资料"></a>3. 资料</h1><ol>
-<li>K-D树介绍:<ol>
-<li><a href="http://www.cnblogs.com/eyeszjwang/articles/2429382.html" target="_blank" rel="external">链接</a></li>
-</ol>
-</li>
 <li>Spark:<ol>
 <li><a href="https://spark.apache.org/docs/latest/api/python/pyspark.html" target="_blank" rel="external">官方API文档</a></li>
-<li><a href="http://tech.meituan.com/spark-tuning-basic.html" target="_blank" rel="external">美团：Spark性能优化指南——基础篇</a></li>
+<li><a href="http://tech.meituan.com/spark-tuning-basic.html" target="_blank" rel="external">美团: Spark性能优化指南——基础篇</a></li>
 <li><a href="http://tech.meituan.com/spark-tuning-pro.html" target="_blank" rel="external">Spark性能优化指南——高级篇</a></li>
 </ol>
 </li>
@@ -404,12 +401,12 @@
 <li><a href="https://cloud.google.com/blog/big-data/2017/01/learn-tensorflow-and-deep-learning-without-a-phd" target="_blank" rel="external">Learn TensorFlow and deep learning, without a Ph.D.</a></li>
 </ol>
 </li>
-<li>sklearn<ol>
+<li>Sklearn<ol>
 <li><a href="http://scikit-learn.org/stable/documentation.html" target="_blank" rel="external">官方文档</a></li>
 </ol>
 </li>
 </ol>
-<h1 id="4-名词"><a href="#4-名词" class="headerlink" title="4. 名词"></a>4. 名词</h1><h2 id="4-1-评估指标"><a href="#4-1-评估指标" class="headerlink" title="4.1. 评估指标"></a>4.1. 评估指标</h2><ol>
+<h1 id="4-基础"><a href="#4-基础" class="headerlink" title="4. 基础"></a>4. 基础</h1><h2 id="4-1-评估指标"><a href="#4-1-评估指标" class="headerlink" title="4.1. 评估指标"></a>4.1. 评估指标</h2><ol>
 <li>AUC和ROC:<ol>
 <li><a href="http://alexkong.net/2013/06/introduction-to-auc-and-roc/" target="_blank" rel="external">ROC和AUC介绍以及如何计算AUC</a></li>
 </ol>
@@ -420,7 +417,7 @@
 </ol>
 </li>
 <li>方均根差:<ol>
-<li><a href="https://www.kaggle.com/wiki/RootMeanSquaredError" target="_blank" rel="external">RMS</a><br>$$ \textrm{RMSE} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2} $$</li>
+<li><a href="https://www.kaggle.com/wiki/RootMeanSquaredError" target="_blank" rel="external">RMSE</a> $ = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2} $</li>
 </ol>
 </li>
 <li>准确率、召回率、精确率、F1-Score:<ol>
@@ -433,8 +430,8 @@
 </li>
 </ol>
 <h2 id="4-2-知识"><a href="#4-2-知识" class="headerlink" title="4.2. 知识"></a>4.2. 知识</h2><ol>
-<li>pairwise:<ol>
-<li>几种pairwise算法：<ol>
+<li>Pairwise:<ol>
+<li>几种pairwise算法: <ol>
 <li>RankSvm</li>
 <li>IRSVM <a href="http://www.tuicool.com/articles/EBRZvqu" target="_blank" rel="external">优化</a></li>
 </ol>
@@ -446,17 +443,22 @@
 <li><a href="https://zhuanlan.zhihu.com/p/21404922" target="_blank" rel="external">UCB算法升职记——LinUCB算法</a></li>
 </ol>
 </li>
-<li>矩阵分解：<ol>
-<li><a href="http://m.blog.csdn.net/article/details?id=51103051" target="_blank" rel="external">推荐系统之矩阵分解</a></li>
+<li>正则化: <ol>
+<li><a href="http://blog.csdn.net/u012162613/article/details/44261657" target="_blank" rel="external">正则化方法: L1和L2 regularization、数据集扩增、dropout</a></li>
 </ol>
 </li>
-<li>正则化：<ol>
-<li><a href="http://blog.csdn.net/u012162613/article/details/44261657" target="_blank" rel="external">正则化方法：L1和L2 regularization、数据集扩增、dropout</a></li>
+<li>矩阵分解: <ol>
+<li><a href="http://blog.csdn.net/orthocenterchocolate/article/details/38540871" target="_blank" rel="external">推荐系统之矩阵分解</a></li>
+<li><a href="https://github.com/endymecy/spark-ml-source-analysis/blob/master/%E6%8E%A8%E8%8D%90/ALS.md" target="_blank" rel="external">交替最小二乘(ALS)</a></li>
+<li><a href="http://www.cs.rochester.edu/twiki/pub/Main/HarpSeminar/Factorization_Meets_the_Neighborhood-_a_Multifaceted_Collaborative_Filtering_Model.pdf" target="_blank" rel="external">Factorization Meets the Neighborhood: a Multifaceted Collaborative Filtering Model</a></li>
 </ol>
 </li>
-<li>SVD：<ol>
-<li><a href="http://shartoo.github.io/SVD-decomponent/" target="_blank" rel="external">深度学习基础：SVD奇异值分解及其意义【转】</a></li>
-<li><a href="http://www.cnblogs.com/LeftNotEasy/archive/2011/01/19/svd-and-applications.html" target="_blank" rel="external">机器学习中的数学(5)-强大的矩阵奇异值分解(SVD)及其应用</a></li>
+<li>拉格朗日乘数:<ol>
+<li><a href="https://zh.wikipedia.org/wiki/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E6%95%B0" target="_blank" rel="external">拉格朗日乘数wiki</a></li>
+</ol>
+</li>
+<li>K-D树介绍:<ol>
+<li><a href="http://www.cnblogs.com/eyeszjwang/articles/2429382.html" target="_blank" rel="external">k-d tree算法</a></li>
 </ol>
 </li>
 </ol>
@@ -699,7 +701,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-公开课"><span class="nav-text">1. 公开课</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-书"><span class="nav-text">2. 书</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-资料"><span class="nav-text">3. 资料</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-名词"><span class="nav-text">4. 名词</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-评估指标"><span class="nav-text">4.1. 评估指标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-知识"><span class="nav-text">4.2. 知识</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-公开课"><span class="nav-text">1. 公开课</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-书"><span class="nav-text">2. 书</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-资料"><span class="nav-text">3. 资料</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-基础"><span class="nav-text">4. 基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-评估指标"><span class="nav-text">4.1. 评估指标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-知识"><span class="nav-text">4.2. 知识</span></a></li></ol></li></ol></div>
             
 
           </div>
