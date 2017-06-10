@@ -90,7 +90,7 @@
 <meta property="og:url" content="yejinru.github.io/sql/2017-01-19-hive-usage/index.html">
 <meta property="og:site_name" content="yejinru">
 <meta property="og:description" content="Hive SQL记录。">
-<meta property="og:updated_time" content="2017-04-30T07:21:43.000Z">
+<meta property="og:updated_time" content="2017-06-10T08:57:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hive SQL">
 <meta name="twitter:description" content="Hive SQL记录。">
@@ -467,7 +467,15 @@
  <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> table_test <span class="keyword">where</span> array_contains(<span class="keyword">split</span>(list_ids,<span class="string">','</span>), <span class="string">'cde'</span>);</div><div class="line"></div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> table_name <span class="keyword">where</span> list_ids <span class="keyword">like</span> <span class="string">'%cde%'</span>;</div></pre></td></tr></table></figure>
 </li>
 </ol>
-<h1 id="7-Others"><a href="#7-Others" class="headerlink" title="7. Others"></a>7. Others</h1><ol>
+<h1 id="7-yarn"><a href="#7-yarn" class="headerlink" title="7. yarn"></a>7. yarn</h1><ol>
+<li><p>kill</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yarn application -kill</div></pre></td></tr></table></figure>
+</li>
+<li><p>根据applicationId查看执行日志</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yarn logs -applicationId application_1488804048050_821153</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="8-Others"><a href="#8-Others" class="headerlink" title="8. Others"></a>8. Others</h1><ol>
 <li><p>文件启动</p>
  <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hive -f a.sql</div></pre></td></tr></table></figure>
 </li>
@@ -717,7 +725,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-增删改查-CRUD-Create-Read-Update-and-Delete"><span class="nav-text">1. 增删改查(CRUD: Create, Read, Update and Delete)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-增"><span class="nav-text">1.1. 增</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-删"><span class="nav-text">1.2. 删</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-改"><span class="nav-text">1.3. 改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-查"><span class="nav-text">1.4. 查</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-UDF"><span class="nav-text">4. UDF</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-Read-Write-file"><span class="nav-text">5. Read/Write file</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-常用操作"><span class="nav-text">6. 常用操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-Others"><span class="nav-text">7. Others</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-增删改查-CRUD-Create-Read-Update-and-Delete"><span class="nav-text">1. 增删改查(CRUD: Create, Read, Update and Delete)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-增"><span class="nav-text">1.1. 增</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-删"><span class="nav-text">1.2. 删</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-改"><span class="nav-text">1.3. 改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-查"><span class="nav-text">1.4. 查</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-UDF"><span class="nav-text">4. UDF</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-Read-Write-file"><span class="nav-text">5. Read/Write file</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-常用操作"><span class="nav-text">6. 常用操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-yarn"><span class="nav-text">7. yarn</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-Others"><span class="nav-text">8. Others</span></a></li></ol></div>
             
 
           </div>
