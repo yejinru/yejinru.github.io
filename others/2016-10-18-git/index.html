@@ -90,7 +90,7 @@
 <meta property="og:url" content="yejinru.github.io/others/2016-10-18-git/index.html">
 <meta property="og:site_name" content="yejinru">
 <meta property="og:description" content="本文记录了git和svn的常用命令。">
-<meta property="og:updated_time" content="2017-04-02T02:58:45.000Z">
+<meta property="og:updated_time" content="2017-06-28T02:32:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git">
 <meta name="twitter:description" content="本文记录了git和svn的常用命令。">
@@ -461,7 +461,12 @@
 <p> eval $(ssh-agent)</p>
 <p> ssh-add</p>
 </li>
+<li><p>添加本地用户、密码：</p>
+<p> git config –local user.name ${用户名}<br> git config –local user.name<br> git config –local user.email ${email}<br> git config –local user.email</p>
+</li>
 </ol>
+</li>
+<li><p>忽略文件权限被修改的配置：git config core.filemode false</p>
 </li>
 </ol>
 <h1 id="2-svn"><a href="#2-svn" class="headerlink" title="2. svn"></a>2. svn</h1><ol>
@@ -599,7 +604,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -617,7 +622,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
