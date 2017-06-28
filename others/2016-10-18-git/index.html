@@ -90,7 +90,7 @@
 <meta property="og:url" content="yejinru.github.io/others/2016-10-18-git/index.html">
 <meta property="og:site_name" content="yejinru">
 <meta property="og:description" content="本文记录了git和svn的常用命令。">
-<meta property="og:updated_time" content="2017-06-28T02:32:58.000Z">
+<meta property="og:updated_time" content="2017-06-28T02:42:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git">
 <meta name="twitter:description" content="本文记录了git和svn的常用命令。">
@@ -446,8 +446,7 @@
 </ol>
 </li>
 <li><p>下载相关依赖的子模块：</p>
-<p>   git submodule init</p>
-<p>   git submodule update</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git submodule init</div><div class="line">git submodule update</div></pre></td></tr></table></figure>
 </li>
 <li><p>其它：</p>
 <ol>
@@ -458,11 +457,10 @@
 <li><p>查看指定的commit的内容：git show commit_id</p>
 </li>
 <li><p>添加全局密码：</p>
-<p> eval $(ssh-agent)</p>
-<p> ssh-add</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">eval $(ssh-agent)</div><div class="line">ssh-add</div></pre></td></tr></table></figure>
 </li>
 <li><p>添加本地用户、密码：</p>
-<p> git config –local user.name ${用户名}<br> git config –local user.name<br> git config –local user.email ${email}<br> git config –local user.email</p>
+<figure class="highlight plain"><figcaption><span>~~~ shell</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git config --local user.name $&#123;用户名&#125;</div><div class="line">git config --local user.name</div><div class="line">git config --local user.email $&#123;email&#125;</div><div class="line">git config --local user.email</div></pre></td></tr></table></figure>
 </li>
 </ol>
 </li>
